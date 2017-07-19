@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-11T10:30:07.000Z</updated>
+  <updated>2017-07-19T11:26:53.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -14,6 +14,44 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Angular 2（二）： 子路由和路由守卫</title>
+    <link href="https://github.com/tuluffy/2017/07/19/child-router/"/>
+    <id>https://github.com/tuluffy/2017/07/19/child-router/</id>
+    <published>2017-07-19T11:26:53.000Z</published>
+    <updated>2017-07-19T11:26:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>##子路由<br>  子路由相对于根路由的概念而来，示例：</p>
+<p>  ####1. children：数组，配置路由相关信息</p>
+<p>  路由配置：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;product&apos;,</div><div class="line">    component:ProductComponent,</div><div class="line">    children:[  //关键字</div><div class="line">        &#123;</div><div class="line">            path:&apos;&apos;,</div><div class="line">            component:ProductDescComponent  //商品简介组件</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            path:&apos;seller/:id&apos;,</div><div class="line">            component:SellerDetailComponent     //具体商品信息组件</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  父组件：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">注意[routerLink] = &quot;[&apos;./&apos;]&quot;，路径中加&quot;.&quot;指明是匹配子路由</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./&apos;]&quot;&gt;商品简介&lt;/a&gt;</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./seller/3&apos;]&quot;&gt;商品信息&lt;/a&gt;</div><div class="line">  &lt;router-outlet&gt;&lt;/router-outlet&gt;     //路由插座</div></pre></td></tr></table></figure></p>
+<p>##辅助路由</p>
+<p>###概览：辅助路由可以有多个，根据“name”字段来匹配</p>
+<ul>
+<li>路由配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;xxx&apos;,</div><div class="line">    component:XComponent,</div><div class="line">    outlet:&quot;aux&quot;,   //匹配路由名字,确定放在哪个辅助路由上</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    path:&apos;yyy&apos;,</div><div class="line">    component:YComponent,</div><div class="line">    outlet:&quot;aux&quot;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>父组件写法，假设是在app.component.html中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;xxx&quot; &#125; &#125;]&quot;&gt;GOTO XXX&lt;/a&gt;</div><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;yyy&quot; &#125; &#125;]&quot;&gt;GOTO YYY&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;router-outlet&gt;&lt;/router-outlet&gt;     //主路由</div><div class="line">&lt;router-outlet name=&quot;aux&quot;&gt;&lt;/router-outlet&gt;      //辅助路由</div><div class="line">&lt;router-outlet name=&quot;other&quot;&gt;&lt;/router-outlet&gt;      //可以有多个辅助路由</div></pre></td></tr></table></figure>
+<hr>
+</li>
+</ul>
+<p>##路由守卫</p>
+<p>##resolve守卫</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##子路由&lt;br&gt;  子路由相对于根路由的概念而来，示例：&lt;/p&gt;
+&lt;p&gt;  ####1. children：数组，配置路由相关信息&lt;/p&gt;
+&lt;p&gt;  路由配置：&lt;br&gt;  &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cla
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Angular 2（二）： 路由</title>

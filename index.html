@@ -61,6 +61,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-child-router" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/19/child-router/" class="article-date">
+  <time datetime="2017-07-19T11:26:53.000Z" itemprop="datePublished">2017-07-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/angular.github.io/2017/07/19/child-router/">Angular 2（二）： 子路由和路由守卫</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##子路由<br>  子路由相对于根路由的概念而来，示例：</p>
+<p>  ####1. children：数组，配置路由相关信息</p>
+<p>  路由配置：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;product&apos;,</div><div class="line">    component:ProductComponent,</div><div class="line">    children:[  //关键字</div><div class="line">        &#123;</div><div class="line">            path:&apos;&apos;,</div><div class="line">            component:ProductDescComponent  //商品简介组件</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            path:&apos;seller/:id&apos;,</div><div class="line">            component:SellerDetailComponent     //具体商品信息组件</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  父组件：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">注意[routerLink] = &quot;[&apos;./&apos;]&quot;，路径中加&quot;.&quot;指明是匹配子路由</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./&apos;]&quot;&gt;商品简介&lt;/a&gt;</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./seller/3&apos;]&quot;&gt;商品信息&lt;/a&gt;</div><div class="line">  &lt;router-outlet&gt;&lt;/router-outlet&gt;     //路由插座</div></pre></td></tr></table></figure></p>
+<p>##辅助路由</p>
+<p>###概览：辅助路由可以有多个，根据“name”字段来匹配</p>
+<ul>
+<li>路由配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;xxx&apos;,</div><div class="line">    component:XComponent,</div><div class="line">    outlet:&quot;aux&quot;,   //匹配路由名字,确定放在哪个辅助路由上</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    path:&apos;yyy&apos;,</div><div class="line">    component:YComponent,</div><div class="line">    outlet:&quot;aux&quot;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>父组件写法，假设是在app.component.html中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;xxx&quot; &#125; &#125;]&quot;&gt;GOTO XXX&lt;/a&gt;</div><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;yyy&quot; &#125; &#125;]&quot;&gt;GOTO YYY&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;router-outlet&gt;&lt;/router-outlet&gt;     //主路由</div><div class="line">&lt;router-outlet name=&quot;aux&quot;&gt;&lt;/router-outlet&gt;      //辅助路由</div><div class="line">&lt;router-outlet name=&quot;other&quot;&gt;&lt;/router-outlet&gt;      //可以有多个辅助路由</div></pre></td></tr></table></figure>
+<hr>
+</li>
+</ul>
+<p>##路由守卫</p>
+<p>##resolve守卫</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/19/child-router/" data-id="cj5axawou0000exs6wclx5tuy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-router" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/angular.github.io/2017/07/11/router/" class="article-date">
@@ -151,7 +205,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/11/router/" data-id="cj4zi1pqb0000sus6buegq0mn" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/11/router/" data-id="cj5axawoz0001exs63xx56pdl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -209,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/10/synopsis/" data-id="cj4zi1pqt0001sus63u13nytz" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/10/synopsis/" data-id="cj5axawp20002exs6lks0hr8b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -247,6 +301,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/19/child-router/">Angular 2（二）： 子路由和路由守卫</a>
+          </li>
         
           <li>
             <a href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
