@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-20T02:33:12.000Z</updated>
+  <updated>2017-07-20T08:20:46.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -14,6 +14,40 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Angular 2（四）： 依赖注入和控制反转</title>
+    <link href="https://github.com/tuluffy/2017/07/20/diIoc/"/>
+    <id>https://github.com/tuluffy/2017/07/20/diIoc/</id>
+    <published>2017-07-20T08:20:46.000Z</published>
+    <updated>2017-07-20T08:20:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><h4 id="依赖注入和控制反转"><a href="#依赖注入和控制反转" class="headerlink" title="依赖注入和控制反转"></a>依赖注入和控制反转</h4><ul>
+<li>A依赖于B，A不需要在代码内部直接创建B的实例对象，而是由外部提供（B的实例对象）； </li>
+<li>将依赖的控制权从代码的内部转移到代码的外部；</li>
+</ul>
+<p>依赖注入和控制反转是一体两面，依赖注入是目的，控制反转是手段，终究实现代码的松耦合。</p>
+<h4 id="token"><a href="#token" class="headerlink" title="token"></a>token</h4><ul>
+<li>示例代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@NgModule(&#123;</div><div class="line">    ①providers: [ ProdService ]</div><div class="line">    </div><div class="line">    ②providers: [&#123;</div><div class="line">        provide: ProdService,</div><div class="line">        useClass: ProdService,</div><div class="line">    &#125;]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>token在Angular中代表一个被注入的对象的类型，由provide决定；</li>
+<li>如：示例代码中，注册的Token的类型为ProdService；</li>
+<li>当有组件或者指令声明（在其构造函数中）需要一个类型为ProdService的token时，注入器就会实例化一个ProdService对象（由useClass决定实例化哪个），并将其注入到组件中；</li>
+<li>在组件中，通过构造函数获得该对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">constructor(private prodService:ProdService)&#123;</div><div class="line">    //prodService</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;基础概念&quot;&gt;&lt;a href=&quot;#基础概念&quot; class=&quot;headerlink&quot; title=&quot;基础概念&quot;&gt;&lt;/a&gt;基础概念&lt;/h3&gt;&lt;h4 id=&quot;依赖注入和控制反转&quot;&gt;&lt;a href=&quot;#依赖注入和控制反转&quot; class=&quot;headerlink&quot; title=
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Angular 2（三）： 子路由和守卫</title>
