@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2（二）： 子路由和路由守卫 | Angular2 知识梳理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="子路由  子路由相对于根路由的概念而来，示例：   ####1. children：数组，配置路由相关信息   路由配置：  1234567891011121314&amp;#123;    path:&amp;apos;product&amp;apos;,    component:ProductComponent,    children:[  //关键字        &amp;#123;            path:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2（二）： 子路由和路由守卫">
+<meta property="og:url" content="https://github.com/tuluffy/2017/07/20/childRouter/index.html">
+<meta property="og:site_name" content="Angular2 知识梳理">
+<meta property="og:description" content="子路由  子路由相对于根路由的概念而来，示例：   ####1. children：数组，配置路由相关信息   路由配置：  1234567891011121314&amp;#123;    path:&amp;apos;product&amp;apos;,    component:ProductComponent,    children:[  //关键字        &amp;#123;            path:">
+<meta property="og:updated_time" content="2017-07-20T02:27:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2（二）： 子路由和路由守卫">
+<meta name="twitter:description" content="子路由  子路由相对于根路由的概念而来，示例：   ####1. children：数组，配置路由相关信息   路由配置：  1234567891011121314&amp;#123;    path:&amp;apos;product&amp;apos;,    component:ProductComponent,    children:[  //关键字        &amp;#123;            path:">
+  
+    <link rel="alternate" href="/atom.xml" title="Angular2 知识梳理" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-childRouter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/20/childRouter/" class="article-date">
+  <time datetime="2017-07-20T02:27:48.000Z" itemprop="datePublished">2017-07-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2（二）： 子路由和路由守卫
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="子路由"><a href="#子路由" class="headerlink" title="子路由"></a>子路由</h2><p>  子路由相对于根路由的概念而来，示例：</p>
+<p>  ####1. children：数组，配置路由相关信息</p>
+<p>  路由配置：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;product&apos;,</div><div class="line">    component:ProductComponent,</div><div class="line">    children:[  //关键字</div><div class="line">        &#123;</div><div class="line">            path:&apos;&apos;,</div><div class="line">            component:ProductDescComponent  //商品简介组件</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            path:&apos;seller/:id&apos;,</div><div class="line">            component:SellerDetailComponent     //具体商品信息组件</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  父组件：<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">注意[routerLink] = &quot;[&apos;./&apos;]&quot;，路径中加&quot;.&quot;指明是匹配子路由</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./&apos;]&quot;&gt;商品简介&lt;/a&gt;</div><div class="line">  &lt;a [routerLink] = &quot;[&apos;./seller/3&apos;]&quot;&gt;商品信息&lt;/a&gt;</div><div class="line">  &lt;router-outlet&gt;&lt;/router-outlet&gt;     //路由插座</div></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="辅助路由"><a href="#辅助路由" class="headerlink" title="辅助路由"></a>辅助路由</h2><p>###概览：辅助路由可以有多个，根据“name”字段来匹配</p>
+<ul>
+<li>路由配置<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;xxx&apos;,</div><div class="line">    component:XComponent,</div><div class="line">    outlet:&quot;aux&quot;,   //匹配路由名字,确定放在哪个辅助路由上</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">    path:&apos;yyy&apos;,</div><div class="line">    component:YComponent,</div><div class="line">    outlet:&quot;aux&quot;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>父组件写法，假设是在app.component.html中<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;xxx&quot; &#125; &#125;]&quot;&gt;GOTO XXX&lt;/a&gt;</div><div class="line">&lt;a [routerLink]=&quot;[&apos;/home&apos;,&#123; outlets:&#123; aux:&quot;yyy&quot; &#125; &#125;]&quot;&gt;GOTO YYY&lt;/a&gt;</div><div class="line"></div><div class="line">&lt;router-outlet&gt;&lt;/router-outlet&gt;     //主路由</div><div class="line">&lt;router-outlet name=&quot;aux&quot;&gt;&lt;/router-outlet&gt;      //辅助路由</div><div class="line">&lt;router-outlet name=&quot;other&quot;&gt;&lt;/router-outlet&gt;      //可以有多个辅助路由</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="路由守卫"><a href="#路由守卫" class="headerlink" title="路由守卫"></a>路由守卫</h2><h3 id="路由守卫的意义在于，路由事件发生后，是否允许默认操作（比如，跳转到指定的页面）"><a href="#路由守卫的意义在于，路由事件发生后，是否允许默认操作（比如，跳转到指定的页面）" class="headerlink" title="路由守卫的意义在于，路由事件发生后，是否允许默认操作（比如，跳转到指定的页面）"></a>路由守卫的意义在于，路由事件发生后，是否允许默认操作（比如，跳转到指定的页面）</h3><p>如何使用？示例：</p>
+<ul>
+<li><p>路由文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">import LoginGuard from &quot;...&quot;;</div><div class="line">import TokenGuard from &quot;...&quot;;</div><div class="line"></div><div class="line">const routes : Routes = [</div><div class="line">    &#123;</div><div class="line">        path:&apos;product&apos;,</div><div class="line">        component:ProductComponent,</div><div class="line">        //路由钩子对象（对应loginGuard.ts中的钩子接口）</div><div class="line">        canActivate:[   //是否可以进入该组件</div><div class="line">            LoginGuard  //控制函数（路由钩子函数），只有当所有的函数都返回true时，才可以进入组件</div><div class="line">            TokenGuard</div><div class="line">        ]</div><div class="line">    &#125;</div><div class="line">];</div><div class="line"></div><div class="line">@NgModule(&#123;</div><div class="line">    import:[RouterModule.forRoot(routes)],</div><div class="line">    exports:[RouterModule],</div><div class="line">    providers:[ LoginGuard,TokenGuard ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+<li><p>守卫文件：loginGuard.ts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export class LoginGuard implements CanActivate&#123;</div><div class="line">    CanActivate():boolean&#123;  //接收一个boolean类型的返回值</div><div class="line">        //处理逻辑，比如判断token是否有效</div><div class="line">        //return true;  </div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>增加一个CanDeactivate守卫，表示是否可以离开该组件(常用来检查用户填写的信息是否已经保存):</p>
+<p>   实现守卫（实现CanDeactivate守卫接口）接口，unSaveGuard.ts文件中<br>    注意事项：</p>
+<ul>
+<li>该守卫需要接受一个组件作为参数（即保护的组件）；</li>
+<li>在守卫函数中，需要创建组件的对象（comp），通过该对象获得组件内部的属性判断是否已经保存</li>
+</ul>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">import &#123; CanDeactivate &#125; from &apos;...&apos;;</div><div class="line"></div><div class="line">export class UnSaveGuard implements CanDeactivate&lt;ProductComponent&gt;&#123;</div><div class="line">   canDeactivate(comp:ProductComponent)&#123;</div><div class="line">       //逻辑操作，对组件内部的变量进行验证是否已经保存</div><div class="line">       comp.varibleName;    </div><div class="line">       </div><div class="line">       //return true;  //是否允许离开</div><div class="line">       return false;</div><div class="line"></div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>将守卫加入到路由配置中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path: &apos;product&apos;,</div><div class="line">    component: ProductComponent,</div><div class="line">    canActivate:[ LoginGuard,TokenGuard ],</div><div class="line">    canDeactivate:[ UnSaveGuard ] //只有一系列函数都return true才可以顺利执行路由操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在NgModule中配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">providers: [ loginGuard,TokenGuard,UnSaveGuard ]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="resolve守卫"><a href="#resolve守卫" class="headerlink" title="resolve守卫"></a>resolve守卫</h2><p>该守卫常用在进入下一个组件之前，执行服务获取下一个组件需要用到的数据，并带入组件中。<br>所以该组件需要可以被注入，在写时需要加入@Injectable()标识</p>
+<ul>
+<li><p>路由配置项改写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    path:&apos;product&apos;,</div><div class="line">    component:ProductComponent,</div><div class="line">    resolve:&#123;</div><div class="line">        prod: ProductResolve //prod是传入组件中的参数集合的对象</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>写productResolve.ts文件，提供ProductResolve函数</p>
+</li>
+<li><p>该class需要指定返回的参数的格式，即：<product></product></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export class ProductResolve implements Resolve&lt;Product&gt;&#123;</div><div class="line">    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable&lt;Product&gt;|Promise&lt;Product&gt;|Product &#123;</div><div class="line">        //发起请求，获取数据</div><div class="line">        return data;    //将解析好的数据传递到组件内部,之后订阅该字段获取数据</div><div class="line">      &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在组建中取值（采用订阅的方式）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">constructor(private routeInfo:ActivatedRoute)&#123;&#125;</div><div class="line"></div><div class="line">ngOnInit()&#123;</div><div class="line">    this.routeInfo.data.subscribe((data:&#123;prod:Product&#125;) =&gt; &#123;</div><div class="line">        this.id = data.prod.id;     </div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###本章内容主要通过代码展示，比较粗略。如果发现文档中的错漏，或者涉及到具体问题，可以联系QQ:3265564490,备注：Angular 笔记</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/20/childRouter/" data-id="cj5bthf2q00019ns6slhpvdog" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/angular.github.io/2017/07/11/router/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular 2（二）： 路由</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/20/childRouter/">Angular 2（二）： 子路由和路由守卫</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/10/synopsis/">Angular 2（一）： 概览</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 tuluffy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
+  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/angular.github.io/js/script.js"></script>
+
+  </div>
+</body>
+</html>
