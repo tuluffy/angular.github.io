@@ -20,7 +20,7 @@
   
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
-  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   
 
 </head>
@@ -33,7 +33,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+        <a href="/" id="logo">Angular2 知识梳理</a>
       </h1>
       
     </div>
@@ -41,16 +41,16 @@
       <nav id="main-nav">
         <a id="main-nav-toggle" class="nav-icon"></a>
         
-          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+          <a class="main-nav-link" href="/">Home</a>
         
-          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+          <a class="main-nav-link" href="/archives">Archives</a>
         
       </nav>
       <nav id="sub-nav">
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
@@ -61,46 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-totrack" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/angular.github.io/2017/07/24/totrack/" class="article-date">
-  <time datetime="2017-07-24T03:00:48.000Z" itemprop="datePublished">2017-07-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/angular.github.io/2017/07/24/totrack/">Angular 2 联系方式：QQ 3265564490</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/totrack/" data-id="cj5hkk3xv000334s6umlt7fpy" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-diIoc" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/angular.github.io/2017/07/24/diIoc/" class="article-date">
-  <time datetime="2017-07-24T02:56:17.000Z" itemprop="datePublished">2017-07-24</time>
+    <a href="/2017/07/24/diIoc/" class="article-date">
+  <time datetime="2017-07-24T03:20:43.000Z" itemprop="datePublished">2017-07-24</time>
 </a>
     
   </div>
@@ -111,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/angular.github.io/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
+      <a class="article-title" href="/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
     </h1>
   
 
@@ -144,74 +108,27 @@
 <p>2.anthorProductService.ts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Injectable()</div><div class="line">export class AnthorProductService implements ProductService&#123;</div><div class="line">    //do something</div><div class="line">    getProduct():Product&#123;</div><div class="line">        return new Product(...);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>3.app.module.ts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@NgModule(&#123;</div><div class="line">    providers:[ ProductService ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
 <p>4.product.component.html</p>
-<p>使用在模块中声明的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">    @Component(&#123;</div><div class="line">        ...,</div><div class="line">    &#125;)</div><div class="line">    export class ProductComponent implements OnInit&#123;</div><div class="line">        constructor(private ps:ProductService)&#123;&#125;</div><div class="line">    &#125;</div><div class="line">```   </div><div class="line">使用在组件中的服务</div></pre></td></tr></table></figure></p>
-<pre><code>@Component({
-        ...,
-        providers:[
-            {
-                provide:ProductService,
-                useClass:AnthorProductService
-            }
-        ]
-    })
-    export class ProductComponent implements OnInit{
-        //声明使用ProductService类型的token，会使用AnthorProductService类创建实例
-        constructor(private ps:ProductService){}
-    }
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 提供器之 useFactory</div><div class="line">在提供服务时，可能要根据不同的状态去初始化不同的服务实例，这时需要使用useFactory提供器来完成。</div><div class="line"></div><div class="line">通过随机数模拟开发/生产状态来实例化不同的服务类：</div></pre></td></tr></table></figure>
-<pre><code>providers:[
-    {
-        provide: ProductService,
-        useFactory:()=&gt;{
-            ① let log = new LogService();
-            let dev = Math.random() &gt; 0.5;
-
-            if(dev){
-                return new ProductService(log);
-            }
-            else {
-                return new AnthorProductService(log);
-            }
-        }
-    }，
-   LogService 
-],
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 以上，我们就完成了模拟开发/生产环境来提供不同的服务实例，而在组件内部使用的时候根本不知道我们提供的是什么。这也就实现了服务和组件的初步解耦。</div><div class="line">- 同时，如果你细心一点，在使用的过程中会发现整个应用内部ProductService类型的token对应的服务实例是同一个。由此可以说：工厂方法创建的对象是单例对象，在该对象被初次创建之后，整个应用内部都是使用同一个。</div><div class="line">- 但是，轻而易举地发现在useFactory的方法内部出现了①这样的写法，LogService和ProductService强耦合。我们需要解决这个问题，使用提供器的第三个参数配置deps(数组)：</div></pre></td></tr></table></figure>
-<pre><code>{
-    provide: ProductService,
-    useFactory:(log:LogService)=&gt;{
-        let dev = Math.random() &gt; 0.5;
-
-        if(dev){
-            return new ProductService(log);
-        }
-        else {
-            return new AnthorProductService(log);
-        }
-    },
-    deps:[ LogService ]
-}，
-LogService
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- 上面代码实现了服务（ProductService）和服务（LogService）之间的解耦。ProductService将使用外部的LogService来注入工厂方法内部，从而创建实例。</div><div class="line"></div><div class="line">### 提供器之 useValue</div><div class="line">该提供器方法常常结合useFactory使用</div></pre></td></tr></table></figure>
-<pre><code>providers:[
-    {
-        provide...,
-        useFactory:(log:LogService,isDev)=&gt;{
-            //do something
-        },
-        deps:[ LogService,&quot;IS_DEV&quot; ]
-    },
-    {
-        provide:&quot;IS_DEV&quot;,
-        useValue:false
-    }
-]
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- useValue的值也可以使用对象:</div></pre></td></tr></table></figure>
-<pre><code>{
-    provide:&quot;APP_CONFIG&quot;,
-    useValue:{ isDev:false }
-}
-</code></pre><p>```</p>
+<p>使用在模块中声明的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">    ...,</div><div class="line">&#125;)</div><div class="line">export class ProductComponent implements OnInit&#123;</div><div class="line">    constructor(private ps:ProductService)&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>使用在组件中的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">@Component(&#123;</div><div class="line">           ...,</div><div class="line">           providers:[</div><div class="line">               &#123;</div><div class="line">                   provide:ProductService,</div><div class="line">                   useClass:AnthorProductService</div><div class="line">               &#125;</div><div class="line">           ]</div><div class="line">       &#125;)</div><div class="line">       export class ProductComponent implements OnInit&#123;</div><div class="line">           //声明使用ProductService类型的token，会使用AnthorProductService类创建实例</div><div class="line">           constructor(private ps:ProductService)&#123;&#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="提供器之-useFactory"><a href="#提供器之-useFactory" class="headerlink" title="提供器之 useFactory"></a>提供器之 useFactory</h3><p>在提供服务时，可能要根据不同的状态去初始化不同的服务实例，这时需要使用useFactory提供器来完成。</p>
+<p>通过随机数模拟开发/生产状态来实例化不同的服务类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">providers:[</div><div class="line">    &#123;</div><div class="line">        provide: ProductService,</div><div class="line">        useFactory:()=&gt;&#123;</div><div class="line">            ① let log = new LogService();</div><div class="line">            let dev = Math.random() &gt; 0.5;</div><div class="line">            </div><div class="line">            if(dev)&#123;</div><div class="line">                return new ProductService(log);</div><div class="line">            &#125;</div><div class="line">            else &#123;</div><div class="line">                return new AnthorProductService(log);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;，</div><div class="line">   LogService </div><div class="line">],</div></pre></td></tr></table></figure></p>
+<ul>
+<li>以上，我们就完成了模拟开发/生产环境来提供不同的服务实例，而在组件内部使用的时候根本不知道我们提供的是什么。这也就实现了服务和组件的初步解耦。</li>
+<li>同时，如果你细心一点，在使用的过程中会发现整个应用内部ProductService类型的token对应的服务实例是同一个。由此可以说：工厂方法创建的对象是单例对象，在该对象被初次创建之后，整个应用内部都是使用同一个。</li>
+<li>但是，轻而易举地发现在useFactory的方法内部出现了①这样的写法，LogService和ProductService强耦合。我们需要解决这个问题，使用提供器的第三个参数配置deps(数组)：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    provide: ProductService,</div><div class="line">    useFactory:(log:LogService)=&gt;&#123;</div><div class="line">        let dev = Math.random() &gt; 0.5;</div><div class="line">                        </div><div class="line">        if(dev)&#123;</div><div class="line">            return new ProductService(log);</div><div class="line">        &#125;</div><div class="line">        else &#123;</div><div class="line">            return new AnthorProductService(log);</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    deps:[ LogService ]</div><div class="line">&#125;，</div><div class="line">LogService</div></pre></td></tr></table></figure>
+<ul>
+<li>上面代码实现了服务（ProductService）和服务（LogService）之间的解耦。ProductService将使用外部的LogService来注入工厂方法内部，从而创建实例。</li>
+</ul>
+<hr>
+<h3 id="提供器之-useValue"><a href="#提供器之-useValue" class="headerlink" title="提供器之 useValue"></a>提供器之 useValue</h3><p>该提供器方法常常结合useFactory使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">providers:[</div><div class="line">    &#123;</div><div class="line">        provide...,</div><div class="line">        useFactory:(log:LogService,isDev)=&gt;&#123;</div><div class="line">            //do something</div><div class="line">        &#125;,</div><div class="line">        deps:[ LogService,&quot;IS_DEV&quot; ]</div><div class="line">    &#125;,</div><div class="line">    &#123;</div><div class="line">        provide:&quot;IS_DEV&quot;,</div><div class="line">        useValue:false</div><div class="line">    &#125;</div><div class="line">]</div></pre></td></tr></table></figure></p>
+<ul>
+<li>useValue的值也可以使用对象:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    provide:&quot;APP_CONFIG&quot;,</div><div class="line">    useValue:&#123; isDev:false &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
 <h4 id="Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是"><a href="#Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是" class="headerlink" title="Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是"></a>Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是</h4><ul>
 <li>每一个服务都是独立的，服务与服务之间不存在耦合。</li>
 <li>每一个组件在申请使用服务的时候，并不知道服务是如何构建的，组件与服务之间不存在耦合。</li>
@@ -221,7 +138,43 @@ LogService
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/diIoc/" data-id="cj5hkk3xm000034s6jod4yz99" class="article-share-link">Delen</a>
+      <a data-url="https://github.com/tuluffy/2017/07/24/diIoc/" data-id="cj5hl55i000016os6m12ve6wu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-totrack" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/24/totrack/" class="article-date">
+  <time datetime="2017-07-24T03:00:48.000Z" itemprop="datePublished">2017-07-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/24/totrack/">Angular 2 联系方式：QQ 3265564490</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/2017/07/24/totrack/" data-id="cj5hl55i400036os6401febbr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -233,7 +186,7 @@ LogService
   
     <article id="post-childRouter" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/angular.github.io/2017/07/20/childRouter/" class="article-date">
+    <a href="/2017/07/20/childRouter/" class="article-date">
   <time datetime="2017-07-20T02:33:12.000Z" itemprop="datePublished">2017-07-20</time>
 </a>
     
@@ -245,7 +198,7 @@ LogService
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/angular.github.io/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
+      <a class="article-title" href="/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
     </h1>
   
 
@@ -310,7 +263,7 @@ LogService
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/20/childRouter/" data-id="cj5hkk3xs000134s6yeu3796l" class="article-share-link">Delen</a>
+      <a data-url="https://github.com/tuluffy/2017/07/20/childRouter/" data-id="cj5hl55hv00006os624fq3sjn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -322,7 +275,7 @@ LogService
   
     <article id="post-router" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/angular.github.io/2017/07/11/router/" class="article-date">
+    <a href="/2017/07/11/router/" class="article-date">
   <time datetime="2017-07-11T10:30:07.000Z" itemprop="datePublished">2017-07-11</time>
 </a>
     
@@ -334,7 +287,7 @@ LogService
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
+      <a class="article-title" href="/2017/07/11/router/">Angular 2（二）： 路由</a>
     </h1>
   
 
@@ -410,7 +363,7 @@ LogService
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/11/router/" data-id="cj5hkk3xu000234s6agwz1u8v" class="article-share-link">Delen</a>
+      <a data-url="https://github.com/tuluffy/2017/07/11/router/" data-id="cj5hl55i200026os6t21tdx2k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -422,7 +375,7 @@ LogService
   
     <article id="post-synopsis" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/angular.github.io/2017/07/10/synopsis/" class="article-date">
+    <a href="/2017/07/10/synopsis/" class="article-date">
   <time datetime="2017-07-10T10:27:50.000Z" itemprop="datePublished">2017-07-10</time>
 </a>
     
@@ -434,7 +387,7 @@ LogService
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/angular.github.io/2017/07/10/synopsis/">Angular 2（一）： 概览</a>
+      <a class="article-title" href="/2017/07/10/synopsis/">Angular 2（一）： 概览</a>
     </h1>
   
 
@@ -468,7 +421,7 @@ LogService
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/10/synopsis/" data-id="cj5hkk3xw000434s6leaqr67n" class="article-share-link">Delen</a>
+      <a data-url="https://github.com/tuluffy/2017/07/10/synopsis/" data-id="cj5hl55i600046os6z1miqtva" class="article-share-link">Share</a>
       
       
     </footer>
@@ -493,9 +446,9 @@ LogService
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -503,28 +456,28 @@ LogService
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/angular.github.io/2017/07/24/totrack/">Angular 2 联系方式：QQ 3265564490</a>
+            <a href="/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
           </li>
         
           <li>
-            <a href="/angular.github.io/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
+            <a href="/2017/07/24/totrack/">Angular 2 联系方式：QQ 3265564490</a>
           </li>
         
           <li>
-            <a href="/angular.github.io/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
+            <a href="/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
           </li>
         
           <li>
-            <a href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
+            <a href="/2017/07/11/router/">Angular 2（二）： 路由</a>
           </li>
         
           <li>
-            <a href="/angular.github.io/2017/07/10/synopsis/">Angular 2（一）： 概览</a>
+            <a href="/2017/07/10/synopsis/">Angular 2（一）： 概览</a>
           </li>
         
       </ul>
@@ -547,9 +500,9 @@ LogService
     </div>
     <nav id="mobile-nav">
   
-    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+    <a href="/" class="mobile-nav-link">Home</a>
   
-    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+    <a href="/archives" class="mobile-nav-link">Archives</a>
   
 </nav>
     
@@ -557,11 +510,11 @@ LogService
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
-  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
-  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-<script src="/angular.github.io/js/script.js"></script>
+<script src="/js/script.js"></script>
 
   </div>
 </body>
