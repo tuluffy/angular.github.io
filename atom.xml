@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-24T09:10:41.000Z</updated>
+  <updated>2017-07-24T09:18:09.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Angular 2（四）： 注入器、数据绑定、管道</title>
+    <title>Angular 2（五）： 注入器、数据绑定、管道</title>
     <link href="https://github.com/tuluffy/2017/07/24/databind/"/>
     <id>https://github.com/tuluffy/2017/07/24/databind/</id>
-    <published>2017-07-24T09:10:41.000Z</published>
-    <updated>2017-07-24T09:10:41.000Z</updated>
+    <published>2017-07-24T09:18:09.000Z</published>
+    <updated>2017-07-24T09:18:09.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="注入器"><a href="#注入器" class="headerlink" title="注入器"></a>注入器</h3><h4 id="1-注入器及其层级关系"><a href="#1-注入器及其层级关系" class="headerlink" title="1.注入器及其层级关系"></a>1.注入器及其层级关系</h4><ul>
 <li><p>第一步：Angular在应用启动时，会生成一个应用级的注入器，将主模块和引用模块中的提供器（provide）全部注入到其中；</p>
@@ -158,20 +158,6 @@
     <summary type="html">
     
       &lt;h3 id=&quot;基础概念&quot;&gt;&lt;a href=&quot;#基础概念&quot; class=&quot;headerlink&quot; title=&quot;基础概念&quot;&gt;&lt;/a&gt;基础概念&lt;/h3&gt;&lt;h4 id=&quot;依赖注入和控制反转&quot;&gt;&lt;a href=&quot;#依赖注入和控制反转&quot; class=&quot;headerlink&quot; title=
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Angular 2 联系方式：QQ 3265564490</title>
-    <link href="https://github.com/tuluffy/2017/07/24/totrack/"/>
-    <id>https://github.com/tuluffy/2017/07/24/totrack/</id>
-    <published>2017-07-24T03:00:48.000Z</published>
-    <updated>2017-07-24T03:00:48.000Z</updated>
-    
-    <summary type="html">
     
     </summary>
     
