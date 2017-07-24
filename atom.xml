@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-20T08:20:46.000Z</updated>
+  <updated>2017-07-24T03:00:48.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -16,11 +16,25 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Angular 2 联系方式：QQ 3265564490</title>
+    <link href="https://github.com/tuluffy/2017/07/24/totrack/"/>
+    <id>https://github.com/tuluffy/2017/07/24/totrack/</id>
+    <published>2017-07-24T03:00:48.000Z</published>
+    <updated>2017-07-24T03:00:48.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Angular 2（四）： 依赖注入和控制反转</title>
-    <link href="https://github.com/tuluffy/2017/07/20/diIoc/"/>
-    <id>https://github.com/tuluffy/2017/07/20/diIoc/</id>
-    <published>2017-07-20T08:20:46.000Z</published>
-    <updated>2017-07-20T08:20:46.000Z</updated>
+    <link href="https://github.com/tuluffy/2017/07/24/diIoc/"/>
+    <id>https://github.com/tuluffy/2017/07/24/diIoc/</id>
+    <published>2017-07-24T02:56:17.000Z</published>
+    <updated>2017-07-24T02:56:17.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h3><h4 id="依赖注入和控制反转"><a href="#依赖注入和控制反转" class="headerlink" title="依赖注入和控制反转"></a>依赖注入和控制反转</h4><ul>
 <li>A依赖于B，A不需要在代码内部直接创建B的实例对象，而是由外部提供（B的实例对象）； </li>
@@ -38,7 +52,89 @@
 <li>在组件中，通过构造函数获得该对象<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">constructor(private prodService:ProdService)&#123;</div><div class="line">    //prodService</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3>]]></content>
+<h3 id="服务的三种使用形式：useClass、useFactory、useValue"><a href="#服务的三种使用形式：useClass、useFactory、useValue" class="headerlink" title="服务的三种使用形式：useClass、useFactory、useValue"></a>服务的三种使用形式：useClass、useFactory、useValue</h3><h4 id="Injectable-，表示可以在该类中注入其他服务，建议所有的服务都加上该声明；"><a href="#Injectable-，表示可以在该类中注入其他服务，建议所有的服务都加上该声明；" class="headerlink" title="@Injectable()，表示可以在该类中注入其他服务，建议所有的服务都加上该声明；"></a>@Injectable()，表示可以在该类中注入其他服务，建议所有的服务都加上该声明；</h4><h4 id="useClass"><a href="#useClass" class="headerlink" title="useClass"></a>useClass</h4><ul>
+<li>服务建议放在模块（即：app.module.ts的providers中）中，使之成为全局共享；</li>
+<li>如果将服务放在组件中，那么它只能在局部使用（组件及其子组件）。对于同名的token请求，组件中的服务类将覆盖模块中的服务类；</li>
+</ul>
+<p>1.productService.ts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Injectable()</div><div class="line">export class ProductService&#123;</div><div class="line">    //do something</div><div class="line">    getProduct():Product&#123;</div><div class="line">        return new Product(...)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2.anthorProductService.ts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@Injectable()</div><div class="line">export class AnthorProductService implements ProductService&#123;</div><div class="line">    //do something</div><div class="line">    getProduct():Product&#123;</div><div class="line">        return new Product(...);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.app.module.ts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@NgModule(&#123;</div><div class="line">    providers:[ ProductService ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
+<p>4.product.component.html</p>
+<p>使用在模块中声明的服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">    @Component(&#123;</div><div class="line">        ...,</div><div class="line">    &#125;)</div><div class="line">    export class ProductComponent implements OnInit&#123;</div><div class="line">        constructor(private ps:ProductService)&#123;&#125;</div><div class="line">    &#125;</div><div class="line">```   </div><div class="line">使用在组件中的服务</div></pre></td></tr></table></figure></p>
+<pre><code>@Component({
+        ...,
+        providers:[
+            {
+                provide:ProductService,
+                useClass:AnthorProductService
+            }
+        ]
+    })
+    export class ProductComponent implements OnInit{
+        //声明使用ProductService类型的token，会使用AnthorProductService类创建实例
+        constructor(private ps:ProductService){}
+    }
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">### 提供器之 useFactory</div><div class="line">在提供服务时，可能要根据不同的状态去初始化不同的服务实例，这时需要使用useFactory提供器来完成。</div><div class="line"></div><div class="line">通过随机数模拟开发/生产状态来实例化不同的服务类：</div></pre></td></tr></table></figure>
+<pre><code>providers:[
+    {
+        provide: ProductService,
+        useFactory:()=&gt;{
+            ① let log = new LogService();
+            let dev = Math.random() &gt; 0.5;
+
+            if(dev){
+                return new ProductService(log);
+            }
+            else {
+                return new AnthorProductService(log);
+            }
+        }
+    }，
+   LogService 
+],
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 以上，我们就完成了模拟开发/生产环境来提供不同的服务实例，而在组件内部使用的时候根本不知道我们提供的是什么。这也就实现了服务和组件的初步解耦。</div><div class="line">- 同时，如果你细心一点，在使用的过程中会发现整个应用内部ProductService类型的token对应的服务实例是同一个。由此可以说：工厂方法创建的对象是单例对象，在该对象被初次创建之后，整个应用内部都是使用同一个。</div><div class="line">- 但是，轻而易举地发现在useFactory的方法内部出现了①这样的写法，LogService和ProductService强耦合。我们需要解决这个问题，使用提供器的第三个参数配置deps(数组)：</div></pre></td></tr></table></figure>
+<pre><code>{
+    provide: ProductService,
+    useFactory:(log:LogService)=&gt;{
+        let dev = Math.random() &gt; 0.5;
+
+        if(dev){
+            return new ProductService(log);
+        }
+        else {
+            return new AnthorProductService(log);
+        }
+    },
+    deps:[ LogService ]
+}，
+LogService
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- 上面代码实现了服务（ProductService）和服务（LogService）之间的解耦。ProductService将使用外部的LogService来注入工厂方法内部，从而创建实例。</div><div class="line"></div><div class="line">### 提供器之 useValue</div><div class="line">该提供器方法常常结合useFactory使用</div></pre></td></tr></table></figure>
+<pre><code>providers:[
+    {
+        provide...,
+        useFactory:(log:LogService,isDev)=&gt;{
+            //do something
+        },
+        deps:[ LogService,&quot;IS_DEV&quot; ]
+    },
+    {
+        provide:&quot;IS_DEV&quot;,
+        useValue:false
+    }
+]
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- useValue的值也可以使用对象:</div></pre></td></tr></table></figure>
+<pre><code>{
+    provide:&quot;APP_CONFIG&quot;,
+    useValue:{ isDev:false }
+}
+</code></pre><p>```</p>
+<h4 id="Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是"><a href="#Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是" class="headerlink" title="Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是"></a>Angular在启动的时候，在创建服务的过程中会对每一个服务的依赖进行实例化并注入到当前服务中，如此一层一层递进直至结束。于是</h4><ul>
+<li>每一个服务都是独立的，服务与服务之间不存在耦合。</li>
+<li>每一个组件在申请使用服务的时候，并不知道服务是如何构建的，组件与服务之间不存在耦合。</li>
+</ul>
+<p>以上两点就是Angular实现“依赖注入”和“控制反转”的核心。   </p>
+]]></content>
     
     <summary type="html">
     
