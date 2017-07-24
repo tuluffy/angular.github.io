@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-24T03:20:43.000Z</updated>
+  <updated>2017-07-24T09:10:41.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -14,6 +14,86 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Angular 2（四）： 注入器、数据绑定、管道</title>
+    <link href="https://github.com/tuluffy/2017/07/24/databind/"/>
+    <id>https://github.com/tuluffy/2017/07/24/databind/</id>
+    <published>2017-07-24T09:10:41.000Z</published>
+    <updated>2017-07-24T09:10:41.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="注入器"><a href="#注入器" class="headerlink" title="注入器"></a>注入器</h3><h4 id="1-注入器及其层级关系"><a href="#1-注入器及其层级关系" class="headerlink" title="1.注入器及其层级关系"></a>1.注入器及其层级关系</h4><ul>
+<li><p>第一步：Angular在应用启动时，会生成一个应用级的注入器，将主模块和引用模块中的提供器（provide）全部注入到其中；</p>
+<ul>
+<li>NgModule中的providers内声明的提供器</li>
+<li>imports中的模块（BrowserModule、HttpModule）依赖的提供器</li>
+</ul>
+</li>
+<li><p>第二步：Angular创建启动模块指定的主组件（AppComponent），同时应用级的注入器会为主组件创建一个组件级的注入器。</p>
+<p>并将主组件中声明的提供器注入到组件级的注入其中；</p>
+</li>
+<li><p>第三步：在主组件中的子组件被创建时，主组件的注入器会为被激活的子组件创建一个组件级的注入器；</p>
+<p>  并将子组件中的提供器注入其中；</p>
+<h4 id="以此类推，最终形成一套注入器层级关系。"><a href="#以此类推，最终形成一套注入器层级关系。" class="headerlink" title="以此类推，最终形成一套注入器层级关系。"></a>以此类推，最终形成一套注入器层级关系。</h4><h4 id="2-注入器的使用"><a href="#2-注入器的使用" class="headerlink" title="2.注入器的使用"></a>2.注入器的使用</h4></li>
+<li><p>Angular只提供在构造函数中注入的方式来创建服务；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">constructor(private service:Service)&#123;</div><div class="line">    //this.service.methodName();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>除了常用的在构造函数的参数直接声明服务以外，还可以手动调用注入器获取需要的服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">constructor(private injector:Injector)&#123;</div><div class="line">    this.service = injector.get(&quot;Service&quot;);</div><div class="line">    this.service.methodName();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h3><h4 id="Angular才用的是DOM属性绑定的模式来完成数据绑定。"><a href="#Angular才用的是DOM属性绑定的模式来完成数据绑定。" class="headerlink" title="Angular才用的是DOM属性绑定的模式来完成数据绑定。"></a>Angular才用的是DOM属性绑定的模式来完成数据绑定。</h4><h4 id="1-DOM属性绑定流程"><a href="#1-DOM属性绑定流程" class="headerlink" title="1.DOM属性绑定流程"></a>1.DOM属性绑定流程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; value=&apos;1&apos; (input)=&quot;console($event)&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">console(ev):any&#123;</div><div class="line">    ① console.log(ev.target.value);</div><div class="line">    ② console.log(ev.target.getAttribute(&apos;value&apos;));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在input事件发生的时候，在控制台中可以看到①打印的值与文本框保持一致，而②始终是默认的value值；</p>
+<p>这是因为HTML属性指向的是初始值，而DOM属性指向的是当前值，且HTML属性不可变；</p>
+<ul>
+<li>DOM属性发生变化时的流程<ol>
+<li>（组件）input中的值发生变化</li>
+<li>DOM属性发生变化，HTML属性不变</li>
+<li>浏览器保持DOM属性和UI同步</li>
+<li>value渲染到页面</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-HTML属性绑定流程"><a href="#2-HTML属性绑定流程" class="headerlink" title="2.HTML属性绑定流程"></a>2.HTML属性绑定流程</h4><ul>
+<li>HTML属性发生变化时的流程                   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">① &lt;div [colspan]=&quot;&#123;&#123;1+1&#125;&#125;&quot;&gt;&lt;/div&gt;</div><div class="line">② &lt;div [attr.colspan]=&quot;val&quot;&gt;&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>由于Angular使用的是DOM属性绑定，而DOM属性中没有colspan，故①中的写法会报错；</p>
+<ul>
+<li><p>DOM属性发生变化时的流程 </p>
+<ol>
+<li>(控制器)数据发生变化</li>
+<li>更新HTML元素，不更新DOM元素</li>
+<li>（浏览器同步HTML元素和DOM对象）DOM节点发生变化，造成DOM对象的属性发生变化</li>
+<li>浏览器同步DOM属性和UI</li>
+<li>渲染页面</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>cli命令创建管道：ng g pipe pipeName</p>
+<h4 id="1-管道的标准形式"><a href="#1-管道的标准形式" class="headerlink" title="1.管道的标准形式"></a>1.管道的标准形式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">import &#123; Pipe,PipeTransform &#125; from &apos;@angular/core&apos;;</div><div class="line"></div><div class="line">@Pipe(&#123; name: &quot;timeFilter&quot; &#125;)</div><div class="line"></div><div class="line">export class TimeFilter implements PipeTransform&#123;</div><div class="line">    transform(value:any,argu:any):any&#123;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2-管道-是数据扩大指定的倍数"><a href="#2-管道-是数据扩大指定的倍数" class="headerlink" title="2.管道:是数据扩大指定的倍数"></a>2.管道:是数据扩大指定的倍数</h4><ul>
+<li><p>extraMultiple.ts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">transform(value:number,multiple?:number):number&#123;</div><div class="line">      if(!multiple)&#123; multiple = 1; &#125;</div><div class="line">      return  value * multiple;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>app.component.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&#123;&#123; val | extraMultiple: &apos;3&apos; &#125;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果有多个过滤参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;&#123;&#123; val | pipeName: &apos;argu1&apos; : &apos;agru2&apos; &#125;&#125;&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;注入器&quot;&gt;&lt;a href=&quot;#注入器&quot; class=&quot;headerlink&quot; title=&quot;注入器&quot;&gt;&lt;/a&gt;注入器&lt;/h3&gt;&lt;h4 id=&quot;1-注入器及其层级关系&quot;&gt;&lt;a href=&quot;#1-注入器及其层级关系&quot; class=&quot;headerlink&quot; title=
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Angular 2（四）： 依赖注入和控制反转</title>
