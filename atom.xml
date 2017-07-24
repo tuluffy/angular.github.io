@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Angular2 知识梳理</title>
   
-  <link href="/atom.xml" rel="self"/>
+  <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
   <updated>2017-07-24T03:20:43.000Z</updated>
