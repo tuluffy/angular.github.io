@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2（六）： 输入属性、输出属性 | Angular2 知识梳理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="输入属性父组件单向向子组件中传值 父组件：    12&amp;lt;div&amp;gt;我是父组件&amp;lt;/div&amp;gt;&amp;lt;app-child [myVal]=&amp;quot;val&amp;quot;&amp;gt;&amp;lt;/app-child&amp;gt;    1val: string = &amp;apos;这是在父组件的控制器中赋值！&amp;apos;;  子组件   1&amp;lt;div&amp;gt;&amp;#123;&amp;#123;myVal&amp;#1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2（六）： 输入属性、输出属性">
+<meta property="og:url" content="https://github.com/tuluffy/2017/07/25/output/index.html">
+<meta property="og:site_name" content="Angular2 知识梳理">
+<meta property="og:description" content="输入属性父组件单向向子组件中传值 父组件：    12&amp;lt;div&amp;gt;我是父组件&amp;lt;/div&amp;gt;&amp;lt;app-child [myVal]=&amp;quot;val&amp;quot;&amp;gt;&amp;lt;/app-child&amp;gt;    1val: string = &amp;apos;这是在父组件的控制器中赋值！&amp;apos;;  子组件   1&amp;lt;div&amp;gt;&amp;#123;&amp;#123;myVal&amp;#1">
+<meta property="og:updated_time" content="2017-07-25T06:31:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2（六）： 输入属性、输出属性">
+<meta name="twitter:description" content="输入属性父组件单向向子组件中传值 父组件：    12&amp;lt;div&amp;gt;我是父组件&amp;lt;/div&amp;gt;&amp;lt;app-child [myVal]=&amp;quot;val&amp;quot;&amp;gt;&amp;lt;/app-child&amp;gt;    1val: string = &amp;apos;这是在父组件的控制器中赋值！&amp;apos;;  子组件   1&amp;lt;div&amp;gt;&amp;#123;&amp;#123;myVal&amp;#1">
+  
+    <link rel="alternate" href="/atom.xml" title="Angular2 知识梳理" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-output" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/25/output/" class="article-date">
+  <time datetime="2017-07-25T06:31:28.000Z" itemprop="datePublished">2017-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2（六）： 输入属性、输出属性
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="输入属性"><a href="#输入属性" class="headerlink" title="输入属性"></a>输入属性</h3><h4 id="父组件单向向子组件中传值"><a href="#父组件单向向子组件中传值" class="headerlink" title="父组件单向向子组件中传值"></a>父组件单向向子组件中传值</h4><ul>
+<li><p>父组件：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">&lt;app-child [myVal]=&quot;val&quot;&gt;&lt;/app-child&gt;</div></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">val: string = &apos;这是在父组件的控制器中赋值！&apos;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>子组件</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;&#123;&#123;myVal&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//在子组件中将“myVal”声明为输入属性</div><div class="line">//至此，父组件中的值就能直接传递给&quot;myVal&quot;了</div><div class="line">@Input() myVal;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="输出属性"><a href="#输出属性" class="headerlink" title="输出属性"></a>输出属性</h3><h4 id="数据从子组件中发射，在父组件中捕获"><a href="#数据从子组件中发射，在父组件中捕获" class="headerlink" title="数据从子组件中发射，在父组件中捕获"></a>数据从子组件中发射，在父组件中捕获</h4><ul>
+<li><p>子组件：对外发射数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">① @Output()   </div><div class="line">② outObjName: EventEmitter&lt;Product&gt; = new EventEmitter();</div><div class="line"></div><div class="line">constructor()&#123;</div><div class="line">③    let prod: Product = new Product(&quot;joy&quot;,13);</div><div class="line">④    this.outObjName.emit(prod);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>①②表示声明一个输出属性（也可以说成输出对象），该属性具有发射数据的能力；</li>
+<li>②中，需要为声明的属性指明一个泛型，EventEmitter&lt;泛型&gt;。该泛型即是：对外发射的数据的类型；</li>
+<li>③生成一个符合规则的数据；</li>
+<li>④使用输出属性将数据发射出去（发射到父组件中）；</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>父组件：接收来自于子组件的数据 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">④ &lt;app-child (outObjName)=&quot;getDataFromChild($event)&quot;&gt;&lt;/app-child&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">① prodInParent : Product = new Product();</div><div class="line"></div><div class="line">② getDataFromChild(ev:Product)&#123;</div><div class="line">③    this.prodInParent = ev;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>   在Angular中，捕获子组件中发射的事件，和捕获原生的DOM事件是一样的操作。</p>
+<ul>
+<li>①中新建了了一个Product的实例，为接收数据做准备；</li>
+<li>②自定义函数，捕获从子组件中发射出来的指定类型的数据；</li>
+<li>③使用捕获到的数据</li>
+<li>④对子组件中发射事件进行监听，一旦捕获到，立即响应指定的操作（getDataFromChild）</li>
+</ul>
+<h3 id="补充说明："><a href="#补充说明：" class="headerlink" title="补充说明："></a>补充说明：</h3><ul>
+<li>一般情况下，父组件中“捕获的事件名称”和子组件中“输出属性的名称”保持一致；</li>
+<li>如果需要给输出属性指定别名，可以：@Output(‘otherName’)。这时，在父组件中④的位置outObjName需要与otherName相同；</li>
+</ul>
+<h3 id="中间人模式："><a href="#中间人模式：" class="headerlink" title="中间人模式："></a>中间人模式：</h3><ul>
+<li>简单来说，使用一个公共的父组件来连通两个不相关的组件，使之间的数据和事件响应在一定程度上得到关联；</li>
+<li>使用中间人模式既实现既定功能，也实现了组件之间的解耦；   </li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/output/" data-id="cj5j97w710003j5s6e30qvoqs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/angular.github.io/2017/07/24/databind/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular 2（五）： 注入器、数据绑定、管道</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Arkiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Siste innlegg</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/25/output/">Angular 2（六）： 输入属性、输出属性</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/24/databind/">Angular 2（五）： 注入器、数据绑定、管道</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 tuluffy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
+  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/angular.github.io/js/script.js"></script>
+
+  </div>
+</body>
+</html>

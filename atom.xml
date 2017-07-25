@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-24T09:23:46.000Z</updated>
+  <updated>2017-07-25T06:31:28.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -14,6 +14,65 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Angular 2（六）： 输入属性、输出属性</title>
+    <link href="https://github.com/tuluffy/2017/07/25/output/"/>
+    <id>https://github.com/tuluffy/2017/07/25/output/</id>
+    <published>2017-07-25T06:31:28.000Z</published>
+    <updated>2017-07-25T06:31:28.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="输入属性"><a href="#输入属性" class="headerlink" title="输入属性"></a>输入属性</h3><h4 id="父组件单向向子组件中传值"><a href="#父组件单向向子组件中传值" class="headerlink" title="父组件单向向子组件中传值"></a>父组件单向向子组件中传值</h4><ul>
+<li><p>父组件：</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">&lt;app-child [myVal]=&quot;val&quot;&gt;&lt;/app-child&gt;</div></pre></td></tr></table></figure>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">val: string = &apos;这是在父组件的控制器中赋值！&apos;;</div></pre></td></tr></table></figure>
+</li>
+<li><p>子组件</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;&#123;&#123;myVal&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//在子组件中将“myVal”声明为输入属性</div><div class="line">//至此，父组件中的值就能直接传递给&quot;myVal&quot;了</div><div class="line">@Input() myVal;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="输出属性"><a href="#输出属性" class="headerlink" title="输出属性"></a>输出属性</h3><h4 id="数据从子组件中发射，在父组件中捕获"><a href="#数据从子组件中发射，在父组件中捕获" class="headerlink" title="数据从子组件中发射，在父组件中捕获"></a>数据从子组件中发射，在父组件中捕获</h4><ul>
+<li><p>子组件：对外发射数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">① @Output()   </div><div class="line">② outObjName: EventEmitter&lt;Product&gt; = new EventEmitter();</div><div class="line"></div><div class="line">constructor()&#123;</div><div class="line">③    let prod: Product = new Product(&quot;joy&quot;,13);</div><div class="line">④    this.outObjName.emit(prod);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>①②表示声明一个输出属性（也可以说成输出对象），该属性具有发射数据的能力；</li>
+<li>②中，需要为声明的属性指明一个泛型，EventEmitter&lt;泛型&gt;。该泛型即是：对外发射的数据的类型；</li>
+<li>③生成一个符合规则的数据；</li>
+<li>④使用输出属性将数据发射出去（发射到父组件中）；</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>父组件：接收来自于子组件的数据 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">④ &lt;app-child (outObjName)=&quot;getDataFromChild($event)&quot;&gt;&lt;/app-child&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">① prodInParent : Product = new Product();</div><div class="line"></div><div class="line">② getDataFromChild(ev:Product)&#123;</div><div class="line">③    this.prodInParent = ev;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>   在Angular中，捕获子组件中发射的事件，和捕获原生的DOM事件是一样的操作。</p>
+<ul>
+<li>①中新建了了一个Product的实例，为接收数据做准备；</li>
+<li>②自定义函数，捕获从子组件中发射出来的指定类型的数据；</li>
+<li>③使用捕获到的数据</li>
+<li>④对子组件中发射事件进行监听，一旦捕获到，立即响应指定的操作（getDataFromChild）</li>
+</ul>
+<h3 id="补充说明："><a href="#补充说明：" class="headerlink" title="补充说明："></a>补充说明：</h3><ul>
+<li>一般情况下，父组件中“捕获的事件名称”和子组件中“输出属性的名称”保持一致；</li>
+<li>如果需要给输出属性指定别名，可以：@Output(‘otherName’)。这时，在父组件中④的位置outObjName需要与otherName相同；</li>
+</ul>
+<h3 id="中间人模式："><a href="#中间人模式：" class="headerlink" title="中间人模式："></a>中间人模式：</h3><ul>
+<li>简单来说，使用一个公共的父组件来连通两个不相关的组件，使之间的数据和事件响应在一定程度上得到关联；</li>
+<li>使用中间人模式既实现既定功能，也实现了组件之间的解耦；   </li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;输入属性&quot;&gt;&lt;a href=&quot;#输入属性&quot; class=&quot;headerlink&quot; title=&quot;输入属性&quot;&gt;&lt;/a&gt;输入属性&lt;/h3&gt;&lt;h4 id=&quot;父组件单向向子组件中传值&quot;&gt;&lt;a href=&quot;#父组件单向向子组件中传值&quot; class=&quot;headerlink&quot; 
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Angular 2（五）： 注入器、数据绑定、管道</title>
