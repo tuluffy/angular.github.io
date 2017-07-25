@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
@@ -60,6 +60,85 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-lifecycle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/25/lifecycle/" class="article-date">
+  <time datetime="2017-07-25T08:01:36.000Z" itemprop="datePublished">2017-07-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/angular.github.io/2017/07/25/lifecycle/">Angular 2（六）： 生命周期钩子</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
+<p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
+<p>ngAfterViewChecked  -&gt;  ngOnDestroy</p>
+<h4 id="ngOnchanges"><a href="#ngOnchanges" class="headerlink" title="ngOnchanges"></a>ngOnchanges</h4><ul>
+<li>当父组件初始化或者修改子组件的输入属性时调用；</li>
+<li>如果一个组件没有输入属性，那么永远不会调用该钩子；</li>
+<li>首次调用一定在ngOnInit之前；</li>
+<li>可以被多次调用；<h5 id="可变对象和不可变对象"><a href="#可变对象和不可变对象" class="headerlink" title="可变对象和不可变对象"></a><strong>可变对象和不可变对象</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let val = &apos;hello&apos;;</div><div class="line">val = &apos;hello world&apos;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>‘hello’在内存中被创建后赋值给val；</li>
+<li>‘hello world’在内存中被创建后赋值给val;</li>
+</ul>
+<p>无论val如何变化，’hello’在内存中的地址始终保持不变。字符串是不可变对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    let user = &#123; name:&apos;roy&apos; &#125;;</div><div class="line">    user.name = &apos;joy&apos;;</div><div class="line">``` </div><div class="line">- 在内存中创建了user，name属性指向&apos;roy&apos;所在的地址；</div><div class="line">- 在内存中创建了&apos;joy&apos;，地址赋值给了user的属性name；</div><div class="line">- name发生了变化，但是user的地址始终不变；也就是说由于属性的改变，user（对象）是可变对象；</div><div class="line"></div><div class="line">####  ngOnChanges触发机制</div><div class="line">##### 父组件</div></pre></td></tr></table></figure>
+<pre><code>&lt;div&gt;我是父组件&lt;/div&gt;
+&lt;div&gt;
+    &lt;span&gt;问候语&lt;/span&gt;
+    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;hello&apos;/&gt;
+&lt;/div&gt;
+&lt;div&gt;
+    &lt;span&gt;名字&lt;/span&gt;
+    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;user.name&apos;&gt;
+&lt;/div&gt;
+
+&lt;app-child [childHello]=&apos;hello&apos; [childUser]=&apos;user&apos;&gt;&lt;/app-child&gt;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<pre><code>hello:string;
+user:{name:string} = { name: &apos;&apos; };
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">##### 子组件</div></pre></td></tr></table></figure>
+<pre><code>&lt;div&gt;{{childHello}}&lt;/div&gt;
+&lt;div&gt;{{childUser.name}}&lt;/div&gt;
+&lt;input type=&quot;text&quot; [(ngModel)]=&quot;message&quot;/&gt;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">    @Input() childHello:string;</div><div class="line">    @input() childUser:&#123;name:string&#125;;</div><div class="line">    </div><div class="line">    message:string;</div><div class="line">    </div><div class="line">    ① ngOnChanges(changes:SimpleChanges):void&#123;</div><div class="line">        console.log(changes);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>以上代码结果表现为：</p>
+<ul>
+<li>当输入问候语hello时，①被触发。原因：由于字符串是不可变对象，然后输入后却发生了变化，故调用ngOnChanges；</li>
+<li>修改名字name时，①不触发。原因：由于修改的是可变对象（user的属性虽然变化了，但是user在内存中的地址依然没变），故不会触发ngOnChanges；</li>
+<li>当修改message时，①不处罚。原因：ngOnChanges钩子只针对输入属性，message为非输入属性；</li>
+</ul>
+<p>虽然修改可变对象不会触发ngOnChanges钩子，但是子组件上的值已然发生了变化。这是由于Angular的变更检测机制仍然不活了组件中每个对象的属性的变化。</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/lifecycle/" data-id="cj5jalwao0000ous67drl8nwe" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-output" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -128,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/output/" data-id="cj5j97w710003j5s6e30qvoqs" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/output/" data-id="cj5jalwas0001ous6a9wotwj1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -234,7 +313,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/databind/" data-id="cj5j97w6w0001j5s603xjzf2z" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/databind/" data-id="cj5jalwau0002ous6kavz1yfs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -321,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/diIoc/" data-id="cj5j97w6y0002j5s6mpvdqtvt" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/24/diIoc/" data-id="cj5jalwax0004ous6nbki45tr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/20/childRouter/" data-id="cj5j97w6r0000j5s62uay2ph3" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/20/childRouter/" data-id="cj5jalwaw0003ous6uh4yepxj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -510,7 +589,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/11/router/" data-id="cj5j97w720004j5s6nfih40sl" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/11/router/" data-id="cj5jalwaz0005ous6z7vas3ih" class="article-share-link">Share</a>
       
       
     </footer>
@@ -568,7 +647,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/10/synopsis/" data-id="cj5j97w740005j5s6lhxn955i" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/10/synopsis/" data-id="cj5jalwbd0006ous6uizmoczm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -593,7 +672,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Arkiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
     </div>
@@ -603,9 +682,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Siste innlegg</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/25/lifecycle/">Angular 2（六）： 生命周期钩子</a>
+          </li>
         
           <li>
             <a href="/angular.github.io/2017/07/25/output/">Angular 2（六）： 输入属性、输出属性</a>
@@ -621,10 +704,6 @@
         
           <li>
             <a href="/angular.github.io/2017/07/20/childRouter/">Angular 2（三）： 子路由和守卫</a>
-          </li>
-        
-          <li>
-            <a href="/angular.github.io/2017/07/11/router/">Angular 2（二）： 路由</a>
           </li>
         
       </ul>
