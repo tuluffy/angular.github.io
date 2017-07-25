@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-25T08:02:39.000Z</updated>
+  <updated>2017-07-25T08:04:37.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>Angular 2（七）： 生命周期钩子</title>
     <link href="https://github.com/tuluffy/2017/07/25/lifecycle/"/>
     <id>https://github.com/tuluffy/2017/07/25/lifecycle/</id>
-    <published>2017-07-25T08:02:39.000Z</published>
-    <updated>2017-07-25T08:02:39.000Z</updated>
+    <published>2017-07-25T08:04:37.000Z</published>
+    <updated>2017-07-25T08:04:37.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
 <p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
@@ -37,26 +37,16 @@
 <li>‘hello world’在内存中被创建后赋值给val;</li>
 </ul>
 <p>无论val如何变化，’hello’在内存中的地址始终保持不变。字符串是不可变对象。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">    let user = &#123; name:&apos;roy&apos; &#125;;</div><div class="line">    user.name = &apos;joy&apos;;</div><div class="line">``` </div><div class="line">- 在内存中创建了user，name属性指向&apos;roy&apos;所在的地址；</div><div class="line">- 在内存中创建了&apos;joy&apos;，地址赋值给了user的属性name；</div><div class="line">- name发生了变化，但是user的地址始终不变；也就是说由于属性的改变，user（对象）是可变对象；</div><div class="line"></div><div class="line">####  ngOnChanges触发机制</div><div class="line">##### 父组件</div></pre></td></tr></table></figure>
-<pre><code>&lt;div&gt;我是父组件&lt;/div&gt;
-&lt;div&gt;
-    &lt;span&gt;问候语&lt;/span&gt;
-    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;hello&apos;/&gt;
-&lt;/div&gt;
-&lt;div&gt;
-    &lt;span&gt;名字&lt;/span&gt;
-    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;user.name&apos;&gt;
-&lt;/div&gt;
-
-&lt;app-child [childHello]=&apos;hello&apos; [childUser]=&apos;user&apos;&gt;&lt;/app-child&gt;
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-<pre><code>hello:string;
-user:{name:string} = { name: &apos;&apos; };
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">##### 子组件</div></pre></td></tr></table></figure>
-<pre><code>&lt;div&gt;{{childHello}}&lt;/div&gt;
-&lt;div&gt;{{childUser.name}}&lt;/div&gt;
-&lt;input type=&quot;text&quot; [(ngModel)]=&quot;message&quot;/&gt;
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">```</div><div class="line">    @Input() childHello:string;</div><div class="line">    @input() childUser:&#123;name:string&#125;;</div><div class="line">    </div><div class="line">    message:string;</div><div class="line">    </div><div class="line">    ① ngOnChanges(changes:SimpleChanges):void&#123;</div><div class="line">        console.log(changes);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let user = &#123; name:&apos;roy&apos; &#125;;</div><div class="line">user.name = &apos;joy&apos;;</div></pre></td></tr></table></figure>
+<ul>
+<li>在内存中创建了user，name属性指向’roy’所在的地址；</li>
+<li>在内存中创建了’joy’，地址赋值给了user的属性name；</li>
+<li>name发生了变化，但是user的地址始终不变；也就是说由于属性的改变，user（对象）是可变对象；</li>
+</ul>
+<h4 id="ngOnChanges触发机制"><a href="#ngOnChanges触发机制" class="headerlink" title="ngOnChanges触发机制"></a>ngOnChanges触发机制</h4><h5 id="父组件"><a href="#父组件" class="headerlink" title="父组件"></a>父组件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">&lt;div&gt;</div><div class="line">    &lt;span&gt;问候语&lt;/span&gt;</div><div class="line">    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;hello&apos;/&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;div&gt;</div><div class="line">    &lt;span&gt;名字&lt;/span&gt;</div><div class="line">    &lt;input type=&quot;text&quot; [(ngModel)]=&apos;user.name&apos;&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">&lt;app-child [childHello]=&apos;hello&apos; [childUser]=&apos;user&apos;&gt;&lt;/app-child&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">hello:string;</div><div class="line">user:&#123;name:string&#125; = &#123; name: &apos;&apos; &#125;;</div></pre></td></tr></table></figure>
+<h5 id="子组件"><a href="#子组件" class="headerlink" title="子组件"></a>子组件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;&#123;&#123;childHello&#125;&#125;&lt;/div&gt;</div><div class="line">&lt;div&gt;&#123;&#123;childUser.name&#125;&#125;&lt;/div&gt;</div><div class="line">&lt;input type=&quot;text&quot; [(ngModel)]=&quot;message&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Input() childHello:string;</div><div class="line">@input() childUser:&#123;name:string&#125;;</div><div class="line"></div><div class="line">message:string;</div><div class="line"></div><div class="line">① ngOnChanges(changes:SimpleChanges):void&#123;</div><div class="line">    console.log(changes);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>以上代码结果表现为：</p>
 <ul>
 <li>当输入问候语hello时，①被触发。原因：由于字符串是不可变对象，然后输入后却发生了变化，故调用ngOnChanges；</li>
