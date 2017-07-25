@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-25T08:04:37.000Z</updated>
+  <updated>2017-07-25T08:06:10.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>Angular 2（七）： 生命周期钩子</title>
     <link href="https://github.com/tuluffy/2017/07/25/lifecycle/"/>
     <id>https://github.com/tuluffy/2017/07/25/lifecycle/</id>
-    <published>2017-07-25T08:04:37.000Z</published>
-    <updated>2017-07-25T08:04:37.000Z</updated>
+    <published>2017-07-25T08:06:10.000Z</published>
+    <updated>2017-07-25T08:06:10.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
 <p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
@@ -29,7 +29,7 @@
 <li>当父组件初始化或者修改子组件的输入属性时调用；</li>
 <li>如果一个组件没有输入属性，那么永远不会调用该钩子；</li>
 <li>首次调用一定在ngOnInit之前；</li>
-<li>可以被多次调用；<h5 id="可变对象和不可变对象"><a href="#可变对象和不可变对象" class="headerlink" title="可变对象和不可变对象"></a><strong>可变对象和不可变对象</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let val = &apos;hello&apos;;</div><div class="line">val = &apos;hello world&apos;;</div></pre></td></tr></table></figure>
+<li>可以被多次调用；<h5 id="可变对象和不可变对象"><a href="#可变对象和不可变对象" class="headerlink" title="可变对象和不可变对象"></a><strong>可变对象和不可变对象</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    let val = &apos;hello&apos;;</div><div class="line">    val = &apos;hello world&apos;;</div><div class="line">`</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>

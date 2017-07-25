@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://github.com/tuluffy/2017/07/25/lifecycle/index.html">
 <meta property="og:site_name" content="Angular2 知识梳理">
 <meta property="og:description" content="钩子的调用顺序：consttructor -&amp;gt; ngOnChanges -&amp;gt;  ngOnInit    -&amp;gt;  ngDoCheck   -&amp;gt; ngAfterContentInit  -&amp;gt;  ngAfterContentChecked   -&amp;gt;  ngAfterViewInit -&amp;gt; ngAfterViewChecked  -&amp;gt;  ngOnDestro">
-<meta property="og:updated_time" content="2017-07-25T08:04:37.000Z">
+<meta property="og:updated_time" content="2017-07-25T08:06:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Angular 2（七）： 生命周期钩子">
 <meta name="twitter:description" content="钩子的调用顺序：consttructor -&amp;gt; ngOnChanges -&amp;gt;  ngOnInit    -&amp;gt;  ngDoCheck   -&amp;gt; ngAfterContentInit  -&amp;gt;  ngAfterContentChecked   -&amp;gt;  ngAfterViewInit -&amp;gt; ngAfterViewChecked  -&amp;gt;  ngOnDestro">
@@ -66,7 +66,7 @@
         <section id="main"><article id="post-lifecycle" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/angular.github.io/2017/07/25/lifecycle/" class="article-date">
-  <time datetime="2017-07-25T08:04:37.000Z" itemprop="datePublished">2017-07-25</time>
+  <time datetime="2017-07-25T08:06:10.000Z" itemprop="datePublished">2017-07-25</time>
 </a>
     
   </div>
@@ -92,7 +92,7 @@
 <li>当父组件初始化或者修改子组件的输入属性时调用；</li>
 <li>如果一个组件没有输入属性，那么永远不会调用该钩子；</li>
 <li>首次调用一定在ngOnInit之前；</li>
-<li>可以被多次调用；<h5 id="可变对象和不可变对象"><a href="#可变对象和不可变对象" class="headerlink" title="可变对象和不可变对象"></a><strong>可变对象和不可变对象</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let val = &apos;hello&apos;;</div><div class="line">val = &apos;hello world&apos;;</div></pre></td></tr></table></figure>
+<li>可以被多次调用；<h5 id="可变对象和不可变对象"><a href="#可变对象和不可变对象" class="headerlink" title="可变对象和不可变对象"></a><strong>可变对象和不可变对象</strong></h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">    let val = &apos;hello&apos;;</div><div class="line">    val = &apos;hello world&apos;;</div><div class="line">`</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <ul>
@@ -122,7 +122,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/lifecycle/" data-id="cj5japsj10003pws64sn3byyz" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/25/lifecycle/" data-id="cj5jarqxx0003qes65d98nrvi" class="article-share-link">Share</a>
       
       
     </footer>
