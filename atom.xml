@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-26T06:37:41.000Z</updated>
+  <updated>2017-07-26T06:38:51.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>Angular 2（七）： 生命周期钩子</title>
     <link href="https://github.com/tuluffy/2017/07/26/lifecycle/"/>
     <id>https://github.com/tuluffy/2017/07/26/lifecycle/</id>
-    <published>2017-07-26T06:37:41.000Z</published>
-    <updated>2017-07-26T06:37:41.000Z</updated>
+    <published>2017-07-26T06:38:51.000Z</published>
+    <updated>2017-07-26T06:38:51.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
 <p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
@@ -151,7 +151,8 @@
 </li>
 <li><p>如果有输入属性，启动ngOnChanges检测输入属性的变更</p>
 </li>
-<li>启动ngOnInit，初始化一般数据</li>
+<li><p>启动ngOnInit，初始化一般数据</p>
+</li>
 <li><p>启动ngDoCheck，进行一次变更检测</p>
 <p>开始组装组件：</p>
 </li>
@@ -159,16 +160,17 @@
 </li>
 <li><p>启动ngAfterContentChecked，对投影内容检测</p>
 </li>
-<li>当整个组件被组装时，调用ngAfterViewInit</li>
-<li>启动ngAfterViewChecked，对整个组件检测</li>
-</ul>
+<li><p>当整个组件被组装时，调用ngAfterViewInit</p>
+</li>
+<li><p>启动ngAfterViewChecked，对整个组件检测</p>
 <p>组件变更：</p>
-<ul>
+</li>
 <li><p>当有事件发生(用户操作)，启动ngDoCheck进行变更检测</p>
 </li>
 <li><p>处理变更，如果需要更新组件，启动ngAfterContentChecked、ngAfterViewChecked；如果输入属性发生变化，启动ngOnChanges</p>
 </li>
-<li>路由事件发生，启动ngOnDestory销毁组建，从头开始初始化一个组件；</li>
+<li><p>路由事件发生，启动ngOnDestory销毁组建，从头开始初始化一个组件；</p>
+</li>
 </ul>
 </li>
 </ul>
