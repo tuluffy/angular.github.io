@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-26T02:47:45.000Z</updated>
+  <updated>2017-07-26T06:33:43.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -19,8 +19,8 @@
     <title>Angular 2（七）： 生命周期钩子</title>
     <link href="https://github.com/tuluffy/2017/07/26/lifecycle/"/>
     <id>https://github.com/tuluffy/2017/07/26/lifecycle/</id>
-    <published>2017-07-26T02:47:45.000Z</published>
-    <updated>2017-07-26T02:47:45.000Z</updated>
+    <published>2017-07-26T06:33:43.000Z</published>
+    <updated>2017-07-26T06:33:43.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
 <p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
@@ -78,6 +78,94 @@
 <li>组件中只要有事件发生，ngDoCheck就会被调用①，比如：在两个文本框之间切换；</li>
 <li>由于①的原因，ngOnCheck非常容易被调用，使用时需要小心。对于ngOnCheck的实现要非常高效和轻量，否则容易因其性能问题；</li>
 <li>在Default策略下，每次变更检测，组件树中所有带check后缀的钩子都会被调用；</li>
+</ul>
+<hr>
+<h4 id="view钩子"><a href="#view钩子" class="headerlink" title="view钩子"></a>view钩子</h4><ul>
+<li><p>子组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">getVal(val:string):void&#123;</div><div class="line">    console.log(val);</div><div class="line">&#125;</div><div class="line"></div><div class="line">①ngAfterViewInit():void&#123;&#125;</div><div class="line">②ngAfterViewChecked():void&#123;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>父组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">&lt;app-child #child1&gt;&lt;/app-child&gt;</div><div class="line">&lt;app-child #child2&gt;&lt;/app-child&gt;</div><div class="line">&lt;button (click)=&quot;child2.getVal(&apos;joy&apos;)&quot;&gt;&lt;/button&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@ViewChild(&apos;child1&apos;)  child1:ChildComponent;</div><div class="line"> </div><div class="line">ngOnInit():void&#123;</div><div class="line">    this.child1.getVal(&apos;hahh&apos;);</div><div class="line">&#125;</div><div class="line"> </div><div class="line">③ngAfterViewInit():void&#123;&#125;</div><div class="line">④ngAfterViewChecked():void&#123;&#125;</div></pre></td></tr></table></figure>
+<p>钩子调用顺序：①-&gt;②-&gt;③-&gt;④</p>
+<ul>
+<li>很明显，子组件必须在父组件之前组装完毕，init方法只会被调用一次；</li>
+<li>在变更检测周期中禁止修改属性，如果必须修改需要在子线程中操作；<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ngAfterViewInit():void&#123;</div><div class="line">    this.val = &quot;hhahh&quot;;     //严重错误</div><div class="line">    </div><div class="line">    //解决方案</div><div class="line">    setTimeout(()=&gt;&#123;</div><div class="line">        this.val = &quot;hahha&quot;;</div><div class="line">    &#125;,0)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h4 id="ngContent指令"><a href="#ngContent指令" class="headerlink" title="ngContent指令"></a>ngContent指令</h4><ul>
+<li>一般写法</li>
+</ul>
+<p>子组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;div&gt;我是子组件&lt;/div&gt;</div><div class="line">    &lt;ng-content&gt;&lt;/ng-content&gt;   //投影点</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<p>父组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;div&gt;我是父组件&lt;/div&gt;</div><div class="line">    &lt;app-child&gt;</div><div class="line">        &lt;div&gt;这里面是投影内容&lt;/div&gt;</div><div class="line">        &lt;div&gt;&#123;&#123;title&#125;&#125;&lt;/div&gt;    //虽然是投影在子组件中的内容，但是只能在父组件中操作</div><div class="line">    &lt;/app-child&gt;    </div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>多个投影的写法<br>父组件<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;div&gt;父组件&lt;/div&gt;</div><div class="line">    &lt;app-child&gt;</div><div class="line">        &lt;div class=&quot;firstPart&quot;&gt;这是第一块内容&lt;/div&gt;</div><div class="line">        &lt;div class=&quot;secondPart&quot;&gt;这是第二块内容&lt;/div&gt;</div><div class="line">    &lt;/app-child&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>子组件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;div&gt;</div><div class="line">    &lt;div&gt;子组件&lt;/div&gt;</div><div class="line">    &lt;ng-content select=&quot;.firstPart&quot;&gt;&lt;/ng-content&gt;</div><div class="line">    &lt;ng-content select=&quot;.secondPart&quot;&gt;&lt;/ng-content&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="ngAfterContentInit、ngAfterContentChecked"><a href="#ngAfterContentInit、ngAfterContentChecked" class="headerlink" title="ngAfterContentInit、ngAfterContentChecked"></a>ngAfterContentInit、ngAfterContentChecked</h4><ul>
+<li><p>在投影内容组装完成之后调用、检测之后调用；</p>
+</li>
+<li><p>执行顺序:ngAfterContentInit  -&gt;  ngAfterContentChecked  -&gt;   ngAfterContentInit   -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit</p>
+</li>
+<li><p>与ngAfterView的钩子不同，在ngAfterContent的钩子中可以改变属性的值</p>
+</li>
+</ul>
+<hr>
+<h4 id="ngOnDestory"><a href="#ngOnDestory" class="headerlink" title="ngOnDestory"></a>ngOnDestory</h4><ul>
+<li>当组件销毁的时候调用该钩子（配合路由使用）；</li>
+<li>往往在该钩子中处理“反订阅一个流”、“清除定时器”等操作；</li>
+</ul>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>组件初始化</p>
+<p>  ①constructor</p>
+<p>  ②ngOnChanges</p>
+<p>  ③ngOnInit</p>
+<p>  ④ngDoCheck</p>
+<p>  ⑤ngAfterContentInit</p>
+<p>  ⑥ngAfterContentChecked</p>
+<p>  ⑦ngAfterViewInit</p>
+<p>  ⑧ngAfterViewChecked</p>
+<p>  ⑨ngOnDestory</p>
+</li>
+<li><p>组件销毁    </p>
+<p>  ⑨ngOnDestory</p>
+</li>
+<li><p>变更检测</p>
+<p>  ②ngOnChanges</p>
+<p>  ④ngDoCheck</p>
+<p>  ⑥ngAfterContentChecked</p>
+<p>  ⑧ngAfterViewChecked</p>
+</li>
+</ul>
+<h4 id="每一个组件都会经历三个阶段：初始化、变更检测、销毁"><a href="#每一个组件都会经历三个阶段：初始化、变更检测、销毁" class="headerlink" title="每一个组件都会经历三个阶段：初始化、变更检测、销毁"></a>每一个组件都会经历三个阶段：初始化、变更检测、销毁</h4><ul>
+<li><p>当通过路由激活一个组件（按先后顺序）：</p>
+<p>  组件初始工作：</p>
+<ul>
+<li><p>启动constructor，提供所需实例化的对象</p>
+</li>
+<li><p>如果有输入属性，启动ngOnChanges检测输入属性的变更</p>
+</li>
+<li>启动ngOnInit，初始化一般数据</li>
+<li><p>启动ngDoCheck，进行一次变更检测</p>
+<p>开始组装组件：</p>
+</li>
+<li>当组件中的投影内容被组装时，调用ngAfterContentInit</li>
+<li>启动ngAfterContentChecked，对投影内容检测</li>
+<li>当整个组件被组装时，调用ngAfterViewInit</li>
+<li><p>启动ngAfterViewChecked，对整个组件检测</p>
+<p>组件变更：</p>
+</li>
+<li>当有事件发生(用户操作)，启动ngDoCheck进行变更检测</li>
+<li>处理变更，如果需要更新组件，启动ngAfterContentChecked、ngAfterViewChecked；如果输入属性发生变化，启动ngOnChanges</li>
+<li>路由事件发生，启动ngOnDestory销毁组建，从头开始初始化一个组件；</li>
+</ul>
+</li>
 </ul>
 ]]></content>
     
