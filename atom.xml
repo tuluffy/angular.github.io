@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-25T08:06:10.000Z</updated>
+  <updated>2017-07-26T02:47:45.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>Angular 2（七）： 生命周期钩子</title>
-    <link href="https://github.com/tuluffy/2017/07/25/lifecycle/"/>
-    <id>https://github.com/tuluffy/2017/07/25/lifecycle/</id>
-    <published>2017-07-25T08:06:10.000Z</published>
-    <updated>2017-07-25T08:06:10.000Z</updated>
+    <link href="https://github.com/tuluffy/2017/07/26/lifecycle/"/>
+    <id>https://github.com/tuluffy/2017/07/26/lifecycle/</id>
+    <published>2017-07-26T02:47:45.000Z</published>
+    <updated>2017-07-26T02:47:45.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="钩子的调用顺序："><a href="#钩子的调用顺序：" class="headerlink" title="钩子的调用顺序："></a>钩子的调用顺序：</h3><p>consttructor -&gt; ngOnChanges -&gt;  ngOnInit    -&gt;  ngDoCheck   -&gt;</p>
 <p>ngAfterContentInit  -&gt;  ngAfterContentChecked   -&gt;  ngAfterViewInit -&gt;</p>
@@ -55,6 +55,30 @@
 </ul>
 <p>虽然修改可变对象不会触发ngOnChanges钩子，但是子组件上的值已然发生了变化。这是由于Angular的变更检测机制仍然不活了组件中每个对象的属性的变化。</p>
 <hr>
+<h4 id="ngDoCheck"><a href="#ngDoCheck" class="headerlink" title="ngDoCheck"></a>ngDoCheck</h4><h5 id="在这里，需要先重点说一下Angular的变更检测机制"><a href="#在这里，需要先重点说一下Angular的变更检测机制" class="headerlink" title="在这里，需要先重点说一下Angular的变更检测机制"></a>在这里，需要先重点说一下Angular的变更检测机制</h5><ul>
+<li>在Angular1.x中，任何原生事件都不会触发脏检查，必须使用NG事件才有效。如果使用了原生事件，你需要指定$apply()和$digest()来告诉Angular使用变更检测去处理它。</li>
+<li><p>在Angular2中，变更检测机制是由zone.js提供的，保证组件的属性的变化和页面的变化是同步的。</p>
+<ul>
+<li>浏览器中发生的任何事件都会触发变更检测，如：点击事件、输入数据；</li>
+<li>可以随意使用任何原生事件；</li>
+</ul>
+</li>
+</ul>
+<p>变更检测机制仅仅是将组件属性的改变反应到模块上，它并不会去改变组件属性的值。</p>
+<h5 id="变更检测"><a href="#变更检测" class="headerlink" title="变更检测"></a>变更检测</h5><ul>
+<li>每一个组件生成属于他们的变更检测器。当属性发生变化时，变更检测器指定的变更检测机制（default和Onush）就会响应，并判断是否需要更新模块；</li>
+<li>变更检测策略：<ul>
+<li>Default策略：采用Default策略的组件，无论组件树的哪个地方发生变化，都会被检测；检测顺序：根组件-&gt;子组件-&gt;孙组件;</li>
+<li>Onpush策略：只有当组件的输入属性发生变化，变更检测机制才会检测该组件及其子组件； </li>
+</ul>
+</li>
+</ul>
+<h5 id="对可变对象的检测：ngDoCheck"><a href="#对可变对象的检测：ngDoCheck" class="headerlink" title="对可变对象的检测：ngDoCheck"></a>对可变对象的检测：ngDoCheck</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ngDoCheck():void&#123;</div><div class="line">    if(this.user.name != this.oldname)&#123;</div><div class="line">        //do something</div><div class="line">        console.log(this.user.nane);    //新值</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>组件中只要有事件发生，ngDoCheck就会被调用①，比如：在两个文本框之间切换；</li>
+<li>由于①的原因，ngOnCheck非常容易被调用，使用时需要小心。对于ngOnCheck的实现要非常高效和轻量，否则容易因其性能问题；</li>
+<li>在Default策略下，每次变更检测，组件树中所有带check后缀的钩子都会被调用；</li>
+</ul>
 ]]></content>
     
     <summary type="html">
