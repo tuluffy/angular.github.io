@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://github.com/tuluffy/2017/07/26/lifecycle/index.html">
 <meta property="og:site_name" content="Angular2 知识梳理">
 <meta property="og:description" content="钩子的调用顺序：consttructor -&amp;gt; ngOnChanges -&amp;gt;  ngOnInit    -&amp;gt;  ngDoCheck   -&amp;gt; ngAfterContentInit  -&amp;gt;  ngAfterContentChecked   -&amp;gt;  ngAfterViewInit -&amp;gt; ngAfterViewChecked  -&amp;gt;  ngOnDestro">
-<meta property="og:updated_time" content="2017-07-26T06:36:29.000Z">
+<meta property="og:updated_time" content="2017-07-26T06:37:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Angular 2（七）： 生命周期钩子">
 <meta name="twitter:description" content="钩子的调用顺序：consttructor -&amp;gt; ngOnChanges -&amp;gt;  ngOnInit    -&amp;gt;  ngDoCheck   -&amp;gt; ngAfterContentInit  -&amp;gt;  ngAfterContentChecked   -&amp;gt;  ngAfterViewInit -&amp;gt; ngAfterViewChecked  -&amp;gt;  ngOnDestro">
@@ -66,7 +66,7 @@
         <section id="main"><article id="post-lifecycle" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/angular.github.io/2017/07/26/lifecycle/" class="article-date">
-  <time datetime="2017-07-26T06:36:29.000Z" itemprop="datePublished">2017-07-26</time>
+  <time datetime="2017-07-26T06:37:41.000Z" itemprop="datePublished">2017-07-26</time>
 </a>
     
   </div>
@@ -215,13 +215,22 @@
 <li><p>如果有输入属性，启动ngOnChanges检测输入属性的变更</p>
 </li>
 <li>启动ngOnInit，初始化一般数据</li>
-<li>启动ngDoCheck，进行一次变更检测<br>开始组装组件：</li>
-<li>当组件中的投影内容被组装时，调用ngAfterContentInit</li>
-<li>启动ngAfterContentChecked，对投影内容检测</li>
+<li><p>启动ngDoCheck，进行一次变更检测</p>
+<p>开始组装组件：</p>
+</li>
+<li><p>当组件中的投影内容被组装时，调用ngAfterContentInit</p>
+</li>
+<li><p>启动ngAfterContentChecked，对投影内容检测</p>
+</li>
 <li>当整个组件被组装时，调用ngAfterViewInit</li>
-<li>启动ngAfterViewChecked，对整个组件检测<br>组件变更：</li>
-<li>当有事件发生(用户操作)，启动ngDoCheck进行变更检测</li>
-<li>处理变更，如果需要更新组件，启动ngAfterContentChecked、ngAfterViewChecked；如果输入属性发生变化，启动ngOnChanges</li>
+<li>启动ngAfterViewChecked，对整个组件检测</li>
+</ul>
+<p>组件变更：</p>
+<ul>
+<li><p>当有事件发生(用户操作)，启动ngDoCheck进行变更检测</p>
+</li>
+<li><p>处理变更，如果需要更新组件，启动ngAfterContentChecked、ngAfterViewChecked；如果输入属性发生变化，启动ngOnChanges</p>
+</li>
 <li>路由事件发生，启动ngOnDestory销毁组建，从头开始初始化一个组件；</li>
 </ul>
 </li>
@@ -230,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/26/lifecycle/" data-id="cj5kn0asx0002aks60t3f947z" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/26/lifecycle/" data-id="cj5kn1srk0003b7s6ul6pc832" class="article-share-link">Share</a>
       
       
     </footer>
