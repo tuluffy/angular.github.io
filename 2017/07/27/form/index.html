@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2（八）： 表单 | Angular2 知识梳理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2（八）： 表单">
+<meta property="og:url" content="https://github.com/tuluffy/2017/07/27/form/index.html">
+<meta property="og:site_name" content="Angular2 知识梳理">
+<meta property="og:description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
+<meta property="og:updated_time" content="2017-07-27T07:06:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2（八）： 表单">
+<meta name="twitter:description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
+  
+    <link rel="alternate" href="/atom.xml" title="Angular2 知识梳理" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-form" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/27/form/" class="article-date">
+  <time datetime="2017-07-27T07:06:14.000Z" itemprop="datePublished">2017-07-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2（八）： 表单
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="标准HTML表单"><a href="#标准HTML表单" class="headerlink" title="标准HTML表单"></a>标准HTML表单</h3><ul>
+<li>相关检测属性：required、partern、min、max</li>
+<li>一般写法<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&quot;/register&quot; method=&quot;post&quot;&gt;</div><div class="line">    &lt;input type=&quot;text&quot;/&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h3 id="在Angular中，有两种形式的表单：响应式表单、模板式表单"><a href="#在Angular中，有两种形式的表单：响应式表单、模板式表单" class="headerlink" title="在Angular中，有两种形式的表单：响应式表单、模板式表单"></a>在Angular中，有两种形式的表单：响应式表单、模板式表单</h3><h4 id="模板式表单：表单的数据模型是通过组件中的指令隐式创建的。使用这种方式定义表单的数据模型时，受限于HTML语法，模板驱动方式仅适用于一些简单的场景。"><a href="#模板式表单：表单的数据模型是通过组件中的指令隐式创建的。使用这种方式定义表单的数据模型时，受限于HTML语法，模板驱动方式仅适用于一些简单的场景。" class="headerlink" title="模板式表单：表单的数据模型是通过组件中的指令隐式创建的。使用这种方式定义表单的数据模型时，受限于HTML语法，模板驱动方式仅适用于一些简单的场景。"></a>模板式表单：表单的数据模型是通过组件中的指令隐式创建的。使用这种方式定义表单的数据模型时，受限于HTML语法，模板驱动方式仅适用于一些简单的场景。</h4><h4 id="响应式表单：通过编写ts代码而不是HTML来创建底层数据模型。在模型创建之后，可以使用一些特定的指令将模板的HTML元素与底层数据模型连接在一起。"><a href="#响应式表单：通过编写ts代码而不是HTML来创建底层数据模型。在模型创建之后，可以使用一些特定的指令将模板的HTML元素与底层数据模型连接在一起。" class="headerlink" title="响应式表单：通过编写ts代码而不是HTML来创建底层数据模型。在模型创建之后，可以使用一些特定的指令将模板的HTML元素与底层数据模型连接在一起。"></a>响应式表单：通过编写ts代码而不是HTML来创建底层数据模型。在模型创建之后，可以使用一些特定的指令将模板的HTML元素与底层数据模型连接在一起。</h4><h3 id="模板式表单"><a href="#模板式表单" class="headerlink" title="模板式表单"></a>模板式表单</h3><p>在Angular中，标准表单会被自动托管，常规的操作无效。如果希望使用原始表单，只需要在form标签内加上ngNoForm指令即可；<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&quot;/register&quot; method=&quot;post&quot; ngNoForm&gt;&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="知识梳理"><a href="#知识梳理" class="headerlink" title="知识梳理"></a>知识梳理</h4><ul>
+<li><p>#myForm=”ngForm”获取表单对象,myForm.value获取表单的值，取值形式：<div></div></p>
+</li>
+<li><p>(ngSubmit)=”onSubmit(myform.value)”代替了默认的submit</p>
+</li>
+<li><p>只能在HTML中操作数据模型，不能在ts中操作</p>
+</li>
+<li><p>在ngForm上使用双向绑定时，不需要像以往那样[(ngModel)]=”user.name”，改写为：直接在标签中加入ngModel指令，同时指定name属性：name=”username”</p>
+</li>
+<li><p>如果要在ngmodel上使用组件模板变量，#username=”ngModel”，取值形式：<div></div> </p>
+</li>
+<li><p>ngForm=&gt;隐式创建FormGroup</p>
+</li>
+<li><p>ngModel=&gt;隐式创建FormControl</p>
+</li>
+<li><p>ngModelGroup=&gt;隐式创建FormGroup(嵌入结构，用于将一些字段更好地组织在一起，加入指定的对象中)</p>
+</li>
+</ul>
+<p>模板式表单的写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;form #myForm=&quot;ngForm&quot; (ngSubmit)=&quot;onSubmit(myForm.value)&quot;&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">        姓名</div><div class="line">        &lt;input type=&quot;text&quot; #username=&quot;ngModel&quot; ngModel name=&quot;username&quot;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    </div><div class="line">    &lt;div ngModelGroup=&quot;psw&quot;&gt;</div><div class="line">        &lt;div&gt;</div><div class="line">            密码</div><div class="line">            &lt;input type=&quot;text&quot; #psw_1=&quot;ngModel&quot; ngModel name=&quot;psw_1&quot;/&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">        &lt;div&gt;</div><div class="line">            密码</div><div class="line">            &lt;input type=&quot;text&quot; #psw_2=&quot;ngModel&quot; ngModel name=&quot;psw_2&quot;/&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">onSubmit(val:any):void&#123;</div><div class="line"> console.log(val);   //查看表单的值</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="响应式表单"><a href="#响应式表单" class="headerlink" title="响应式表单"></a>响应式表单</h3><ul>
+<li><p>响应式表单不可以使用模板变量，如：#myForm，只能在ts中操作数据模型</p>
+</li>
+<li><p>FormControl</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">userName:FormControll=new FormControl(); </div><div class="line">//可以指定初始值，userName:FormControll=new FormControl(&apos;Default&apos;); </div><div class="line"></div><div class="line">//常规使用</div><div class="line">&lt;input [formControl]=&quot;username&quot;/&gt;</div><div class="line"></div><div class="line">//如果放在FormGroup中，需要改变写法</div><div class="line">&lt;input formControlName=&quot;username&quot;/&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>FormGroup</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//构造函数需要一个对象</div><div class="line">//一般用于创建一组固定的子集，使用key检索</div><div class="line">formModel:FormGroup = new FormGroup(&#123;</div><div class="line">    from: new FormControl(),</div><div class="line">    to: new FormControl(),</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>FormArray:创建一个可变长度子集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//构造函数需要一个数组</div><div class="line">//使用索引值检索</div><div class="line">emails: FormArray = new FormArray([</div><div class="line">    new FormControl(),</div><div class="line">    new FormControl(),</div><div class="line">])</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>响应式表单的写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">//注意(submit)和(ngSubmit)写法的区别</div><div class="line">&lt;form [formGroup]=&quot;formModel&quot; (submit)=&quot;onSubmit()&quot;&gt;</div><div class="line"></div><div class="line">    //通过formControlName将底层数据模型和HTML元素绑定在一起</div><div class="line">    //formControl在FormGroup中的写法</div><div class="line">    &lt;input type=&quot;text&quot; formControlName=&quot;username&quot;&gt;</div><div class="line">    </div><div class="line">    //使用formGroupName将特定的属性存储在指定（dateRange）的对象中</div><div class="line">    &lt;div formGroupName=&quot;dateRange&quot;&gt;</div><div class="line">    </div><div class="line">        //FormGroup的实例对象通过key（from、to）检索元素</div><div class="line">        开始日期：&lt;input type=&quot;date&quot; formControlName=&quot;from&quot;/&gt;</div><div class="line">        结束日期：&lt;input type=&quot;date&quot; formControlName=&quot;to&quot;/&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    </div><div class="line">    &lt;div&gt;</div><div class="line">        //绑定到FormArray的实例对象</div><div class="line">        &lt;ul formArrayName=&quot;emails&quot;&gt;</div><div class="line">        </div><div class="line">            //由于FormArray是可变长度，一般与ngFor搭配使用</div><div class="line">            //this.formModel.get(&apos;emails&apos;)获取的是一个new FormArray对象，通过.controls取到内部元素集合</div><div class="line">            &lt;li *ngFor=&quot;let email of this.formModel.get(&apos;emails&apos;).controls;let i = index;&quot;&gt;</div><div class="line">            </div><div class="line">                //由于FormArray使用的是索引值检索，故使用索引值作为模板的名字</div><div class="line">                //formControlName在此处为输入属性</div><div class="line">                邮箱：&lt;input type=&quot;email&quot; [formControlName]=&quot;i&quot;/&gt;</div><div class="line">            &lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">        &lt;div (click)=&quot;addEmail()&quot;&gt;增加一个&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;button type=&quot;submit&quot;&gt;保存&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//在ts中建立底层数据模型</div><div class="line">formModel:FormGroup = new FormGroup(&#123;</div><div class="line">    //formControl在FormGroup中的写法</div><div class="line">    username:new FormControl(),</div><div class="line">    </div><div class="line">    dateRange:new FormGroup(&#123;</div><div class="line">        from: new FormControl(),</div><div class="line">        to: new FormControl(),</div><div class="line">    &#125;),</div><div class="line">    </div><div class="line">    emails:new FormArray([</div><div class="line">        new FormControl(),</div><div class="line">    ])</div><div class="line">&#125;);</div><div class="line"></div><div class="line">addEmail():void&#123;</div><div class="line">    //通过this.formModel.get(&apos;emails&apos;)获取的是特定的FormArray的实例对象（类型为对象），需要转换成FormArray类型</div><div class="line">    var emails = this.formModel.get(&apos;emails&apos;) as FormArray;</div><div class="line">    </div><div class="line">    emails.push(new FormControl());</div><div class="line">&#125;</div><div class="line"></div><div class="line">onSubmit():void&#123;</div><div class="line">    //获取表单的值</div><div class="line">    console.log(this.formModel.value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/27/form/" data-id="cj5m3ii1q00013bs6u6sn8fd8" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/angular.github.io/2017/07/26/lifecycle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Angular 2（七）： 生命周期钩子</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/27/form/">Angular 2（八）： 表单</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/26/lifecycle/">Angular 2（七）： 生命周期钩子</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/25/output/">Angular 2（六）： 输入属性、输出属性</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/24/databind/">Angular 2（五）： 注入器、数据绑定、管道</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 tuluffy<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
+  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/angular.github.io/js/script.js"></script>
+
+  </div>
+</body>
+</html>
