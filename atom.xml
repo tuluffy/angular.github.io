@@ -5,7 +5,7 @@
   <link href="//angular.github.io/atom.xml" rel="self"/>
   
   <link href="https://github.com/tuluffy/"/>
-  <updated>2017-07-28T07:44:09.000Z</updated>
+  <updated>2017-08-01T08:01:03.000Z</updated>
   <id>https://github.com/tuluffy/</id>
   
   <author>
@@ -16,11 +16,61 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Angular 2（十）： websocket</title>
+    <link href="https://github.com/tuluffy/2017/08/01/websocket/"/>
+    <id>https://github.com/tuluffy/2017/08/01/websocket/</id>
+    <published>2017-08-01T08:01:03.000Z</published>
+    <updated>2017-08-01T08:01:03.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><ul>
+<li>服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换；</li>
+<li>客户端中的服务（socket）作为”被观察者”，客户端中的组件作为观察者；</li>
+<li>被观察者通过依赖注入，被注入到组件中；</li>
+</ul>
+<p>组件订阅socket产生的流，当流发生变化时，组件就会产生相应的事务。</p>
+<h4 id="websocket-ts"><a href="#websocket-ts" class="headerlink" title="websocket.ts"></a>websocket.ts</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">export class WebSocketService&#123;</div><div class="line">    ws: WebSocket;</div><div class="line">    </div><div class="line">    createObservableSocket(url:string):Observable&lt;any&gt;&#123;</div><div class="line">        this.ws = new WebSocket(url);</div><div class="line">        </div><div class="line">        return new Observable(observer=&gt;&#123;</div><div class="line">            //指定什么时候派发数据:当后端返回数据时</div><div class="line">            this.ws.onmessage = (event)=&gt;observer.next(event.data);</div><div class="line">            </div><div class="line">            //指定错误发生时如何处理</div><div class="line">            this.ws.onerror = (evevt)=&gt;observer.error(event);</div><div class="line">            </div><div class="line">            //指定关闭时如何处理</div><div class="line">            this.ws.onclose = (event)=&gt;observer.complete();</div><div class="line">        &#125;)</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    sendMessage(message:string)&#123;</div><div class="line">        this.ws.send(message);  //向服务器发送数据</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="component-html"><a href="#component-html" class="headerlink" title="component.html"></a>component.html</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">constructor(private wsServer: WebSocketService)&#123;&#125;</div><div class="line"></div><div class="line">ngOnInit()&#123;</div><div class="line">    this.wsServer.createObservableSocket()</div><div class="line">        .subscript(</div><div class="line">            data=&gt;console.log(data);    //当流发送过来消息时</div><div class="line">            err=&gt;console.log(err);</div><div class="line">            ()=&gt;console.log(&apos;流已经结束&apos;);</div><div class="line">        )</div><div class="line">&#125;;</div><div class="line"></div><div class="line">sendMessageToServer()&#123;</div><div class="line">    this.wsServer.sendMessage(‘这是从组件向服务器发送的信息!’);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;概览&quot;&gt;&lt;a href=&quot;#概览&quot; class=&quot;headerlink&quot; title=&quot;概览&quot;&gt;&lt;/a&gt;概览&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换；&lt;/li&gt;
+&lt;li&gt;客户端中的服务（socket）
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Angular 2（十）： 指令</title>
+    <link href="https://github.com/tuluffy/2017/08/01/directive/"/>
+    <id>https://github.com/tuluffy/2017/08/01/directive/</id>
+    <published>2017-08-01T07:41:32.000Z</published>
+    <updated>2017-08-01T07:41:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>生成指令命令行：ng g directive directiveName</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">import &#123; Directive &#125; from &quot;@angular/core&quot;;</div><div class="line">import &#123; mobileValidator &#125; from &apos;../validators&apos;; </div><div class="line"></div><div class="line">@Directive(&#123;</div><div class="line">    selector:&apos;[ mobile ]&apos;,</div><div class="line">    providers:[</div><div class="line">        &#123;</div><div class="line">            provide: NG_VALIDATORS,</div><div class="line">            useValue:mobileValidator,</div><div class="line">            //设置该字段，表示一个token下面可以挂载多个指令</div><div class="line">            multi:true</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div><div class="line"></div><div class="line">export class MobileValidatorDirective implements Init&#123;</div><div class="line">    constructor()&#123;&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; #mobile=&quot;ngModel&quot; ngModel name=&quot;mobile&quot; (input)=&quot;onMobileInput(myForm)&quot;/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mobileValid:boolean = true;</div><div class="line">mobileUntouched:boolean = true;</div><div class="line"></div><div class="line">onMobileInput(formData:NgForm)&#123;</div><div class="line">    if(formData)&#123;</div><div class="line">        //用这两个值来控制错误信息的显示和隐藏</div><div class="line">        this.mobileValid = formData.form.get(&apos;mobile&apos;).valid;</div><div class="line">        this.mobileUntouched = formData.form.get(&apos;mobile&apos;).untouched;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;生成指令命令行：ng g directive directiveName&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Angular 2（八）： 表单</title>
-    <link href="https://github.com/tuluffy/2017/07/28/form/"/>
-    <id>https://github.com/tuluffy/2017/07/28/form/</id>
-    <published>2017-07-28T07:44:09.000Z</published>
-    <updated>2017-07-28T07:44:09.000Z</updated>
+    <link href="https://github.com/tuluffy/2017/08/01/form/"/>
+    <id>https://github.com/tuluffy/2017/08/01/form/</id>
+    <published>2017-08-01T03:28:22.000Z</published>
+    <updated>2017-08-01T03:28:22.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="标准HTML表单"><a href="#标准HTML表单" class="headerlink" title="标准HTML表单"></a>标准HTML表单</h3><ul>
 <li>相关检测属性：required、partern、min、max</li>
@@ -107,13 +157,71 @@
 <p>注意方法的第一个参数不是校验器的名称，而是校验器返回来的对象的key，即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">return valid ? null : &#123; equalPsw:true &#125; 中的 equalPsw</div><div class="line">return valid ? null : &#123; mobile:true &#125; 中的mobile</div></pre></td></tr></table></figure></p>
 <p>在④中，如果发生错误，那么将会获取到返回的“错误提示信息”。</p>
 <h4 id="完整的代码示例："><a href="#完整的代码示例：" class="headerlink" title="完整的代码示例："></a>完整的代码示例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&lt;form [formGroup]=&quot;formModel&quot; (submit)=&quot;onSubmit()&quot;&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    用户名:&lt;input type=&quot;text&quot; formControlName=&quot;username&quot;/&gt;</div><div class="line">    &lt;div [hidden]=&quot;!formModel.hasError(&apos;minlength&apos;,&apos;username&apos;)&quot;&gt;</div><div class="line">      用户名输入不正确</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    手机号:&lt;input type=&quot;text&quot; formControlName=&quot;mobile&quot;/&gt;</div><div class="line">    &lt;div [hidden]=&quot;!formModel.hasError(&apos;mobile&apos;,&apos;mobile&apos;)&quot;&gt;</div><div class="line">      &lt;div&gt;&#123;&#123; formModel.getError(&apos;mobile&apos;,&apos;mobile&apos;)?.msg &#125;&#125;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;div formGroupName=&quot;passwords&quot;&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      密码:&lt;input type=&quot;text&quot; formControlName=&quot;psw_1&quot;/&gt;</div><div class="line">      &lt;div [hidden]=&quot;!formModel.hasError(&apos;minlength&apos;,[&apos;passwords&apos;,&apos;psw_1&apos;])&quot;&gt;</div><div class="line">        密码最小长度不符合要求</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      确认密码:&lt;input type=&quot;text&quot; formControlName=&quot;psw_2&quot;/&gt;</div><div class="line">      &lt;div [hidden]=&quot;!formModel.hasError(&apos;equalPsw&apos;,&apos;passwords&apos;)&quot;&gt;</div><div class="line">        &#123;&#123; formModel.getError(&apos;equalPsw&apos;,&apos;passwords&apos;)?.msg &#125;&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">formModel:FormGroup;</div><div class="line"></div><div class="line">  constructor(fb:FormBuilder)&#123;</div><div class="line">    this.formModel = fb.group(&#123;</div><div class="line">      username:[&apos;&apos;,[Validators.required,Validators.minLength(6)]],</div><div class="line">      mobile:[&apos;&apos;,this.mobileValidator],     //发现一个现象，如果此处加上Validators.required，程序会报错</div><div class="line">      passwords:fb.group(&#123;</div><div class="line">        psw_1:[&apos;&apos;,Validators.minLength(8)],</div><div class="line">        psw_2:[&apos;&apos;],</div><div class="line">      &#125;,&#123;validator:this.equalPswValidator&#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  mobileValidator(control:FormControl):any&#123;</div><div class="line">    let reg = /^[0-9]*$/;</div><div class="line">    let valid = reg.test(control.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; mobile:&#123;msg:&apos;手机号码不正确!&apos;&#125; &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  equalPswValidator(control:FormGroup):any&#123;</div><div class="line">    let psw_1 = control.get(&apos;psw_1&apos;) as FormControl;</div><div class="line">    let psw_2 = control.get(&apos;psw_2&apos;) as FormControl;</div><div class="line"></div><div class="line">    let valid = (psw_1.value === psw_2.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; equalPsw:&#123;msg:&apos;密码错误提示信息!&apos;&#125;&#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  onSubmit()&#123;</div><div class="line">    let valid = this.formModel.valid;</div><div class="line"></div><div class="line">    console.log(valid);</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>]]></content>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">formModel:FormGroup;</div><div class="line"></div><div class="line">  constructor(fb:FormBuilder)&#123;</div><div class="line">    this.formModel = fb.group(&#123;</div><div class="line">      username:[&apos;&apos;,[Validators.required,Validators.minLength(6)]],</div><div class="line">      mobile:[&apos;&apos;,this.mobileValidator],     //发现一个现象，如果此处加上Validators.required，程序会报错</div><div class="line">      passwords:fb.group(&#123;</div><div class="line">        psw_1:[&apos;&apos;,Validators.minLength(8)],</div><div class="line">        psw_2:[&apos;&apos;],</div><div class="line">      &#125;,&#123;validator:this.equalPswValidator&#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  mobileValidator(control:FormControl):any&#123;</div><div class="line">    let reg = /^[0-9]*$/;</div><div class="line">    let valid = reg.test(control.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; mobile:&#123;msg:&apos;手机号码不正确!&apos;&#125; &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  equalPswValidator(control:FormGroup):any&#123;</div><div class="line">    let psw_1 = control.get(&apos;psw_1&apos;) as FormControl;</div><div class="line">    let psw_2 = control.get(&apos;psw_2&apos;) as FormControl;</div><div class="line"></div><div class="line">    let valid = (psw_1.value === psw_2.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; equalPsw:&#123;msg:&apos;密码错误提示信息!&apos;&#125;&#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  onSubmit()&#123;</div><div class="line">    let valid = this.formModel.valid;</div><div class="line"></div><div class="line">    console.log(valid);</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
+<h4 id="状态字段"><a href="#状态字段" class="headerlink" title="状态字段"></a>状态字段</h4><ul>
+<li><p>touched/untouched：字段是否获取过焦点，如果获取过则：true/false，否则相反；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div [hidden]=&quot;!formModel.get(&apos;mobile&apos;).valid || formModel.get(&apos;mobile&apos;).untouched&quot;&gt;</div><div class="line">    当获得过焦点，且表单校验为false，那么显示这段错误提示信息！</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>pristine/dirty：如果一个值未被修改过，则：true/false，否则相反；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div [hidden]=&quot;formModel.get(&apos;mobile&apos;).valid || formModel.get(&apos;mobile&apos;).pristine&quot;&gt;</div><div class="line">    当值被修改过，且不合法的情况下显示该提示信息!</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>pending：当一个字段正处于异步校验中时，该字段为true</p>
+</li>
+</ul>
+]]></content>
     
     <summary type="html">
     
       &lt;h3 id=&quot;标准HTML表单&quot;&gt;&lt;a href=&quot;#标准HTML表单&quot; class=&quot;headerlink&quot; title=&quot;标准HTML表单&quot;&gt;&lt;/a&gt;标准HTML表单&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;相关检测属性：required、partern、min、max&lt;/li&gt;
 &lt;li
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Angular 2（九）： 服务</title>
+    <link href="https://github.com/tuluffy/2017/07/31/http/"/>
+    <id>https://github.com/tuluffy/2017/07/31/http/</id>
+    <published>2017-07-31T02:35:51.000Z</published>
+    <updated>2017-07-31T02:35:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。</p>
+<p>订阅方式有：手动订阅(subscript)、异步管道订阅(async)</p>
+<h4 id="手工订阅"><a href="#手工订阅" class="headerlink" title="手工订阅"></a>手工订阅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div *ngFor=&quot;let prod of products&quot;&gt;&#123;&#123;prod.name&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">products:Array&lt;any&gt; = [];</div><div class="line">dataSource:Observable&lt;any&gt;;</div><div class="line"></div><div class="line">constructor(private http:Http)&#123;</div><div class="line">    this.dataSource = this.http.get(&apos;/products&apos;)</div><div class="line">        //由于返回的数据格式是Response，过需要转成JSON</div><div class="line">        .map((res)=&gt;res.json())</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ngOnInit():void&#123;</div><div class="line">    this.dataSource.subscript(</div><div class="line">        (data)=&gt; this.products = data;</div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>http请求的发送并不是由get方法触发的，而是subscribe；</li>
+<li>get方法只是定义了一个http请求，请求的发送是通过订阅完成的；</li>
+</ul>
+<hr>
+<h4 id="异步管道订阅"><a href="#异步管道订阅" class="headerlink" title="异步管道订阅"></a>异步管道订阅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div *ngFor=&quot;let prod of products | async&quot;&gt;&#123;&#123;prod.name&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">products:Observable&lt;any&gt; = [];</div><div class="line"></div><div class="line">constructor(private http:Http)&#123;</div><div class="line">    this.products = this.http.get(&apos;/paoducts&apos;)</div><div class="line">    .map((res)=&gt;res.json());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="添加Headers"><a href="#添加Headers" class="headerlink" title="添加Headers"></a>添加Headers</h4><p>在定义https请求时，需要添加headers的时候，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">constructor(private http:Http)&#123;</div><div class="line">    let myHeaders:Headers = new Headers();</div><div class="line">    myHeaders.append(&quot;Autor&quot;,&quot;tuluffy&quot;);</div><div class="line">    </div><div class="line">    this.products = this.http.get(&apos;/products&apos;,&#123;headers:myHeaders&#125;)</div><div class="line">        .map((res)=&gt;res.json());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>有些时候Angular启动的端口地址和服务器端口地址不一致，导致所有的http请求失败。我们需要做端口转发。</p>
+<ul>
+<li>新建转发配置文件，proxy.conf.json：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;/api&quot;:&#123;</div><div class="line">        &quot;target&quot;:&quot;http://localhost:8080&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>即：将以”/api”开头的请求地址转发到”<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a>“</p>
+<ul>
+<li><p>修改package.json的start项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">start:&quot;ng serve --proxy-config proxy.conf.json&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改请求的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">this.http.get(&apos;/products&apos;).map((res)=&gt;res.json())</div><div class="line">改为</div><div class="line">this.http.get(&apos;/api/products&apos;).map((res)=&gt;res.json())</div></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。&lt;/p&gt;
+&lt;p&gt;订阅方式有：手动订阅(subscript)、异步管道订阅(async)&lt;/p&gt;
+&lt;h4 id=&quot;手工订阅&quot;&gt;&lt;a href=&quot;#手工订阅&quot; class=&quot;hea
     
     </summary>
     

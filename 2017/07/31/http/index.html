@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2（九）： 服务 | Angular2 知识梳理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。 订阅方式有：手动订阅(subscript)、异步管道订阅(async) 手工订阅1&amp;lt;div *ngFor=&amp;quot;let prod of products&amp;quot;&amp;gt;&amp;#123;&amp;#123;prod.name&amp;#125;&amp;#125;&amp;lt;/div&amp;gt; 123456789101">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2（九）： 服务">
+<meta property="og:url" content="https://github.com/tuluffy/2017/07/31/http/index.html">
+<meta property="og:site_name" content="Angular2 知识梳理">
+<meta property="og:description" content="Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。 订阅方式有：手动订阅(subscript)、异步管道订阅(async) 手工订阅1&amp;lt;div *ngFor=&amp;quot;let prod of products&amp;quot;&amp;gt;&amp;#123;&amp;#123;prod.name&amp;#125;&amp;#125;&amp;lt;/div&amp;gt; 123456789101">
+<meta property="og:updated_time" content="2017-07-31T02:35:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2（九）： 服务">
+<meta name="twitter:description" content="Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。 订阅方式有：手动订阅(subscript)、异步管道订阅(async) 手工订阅1&amp;lt;div *ngFor=&amp;quot;let prod of products&amp;quot;&amp;gt;&amp;#123;&amp;#123;prod.name&amp;#125;&amp;#125;&amp;lt;/div&amp;gt; 123456789101">
+  
+    <link rel="alternate" href="/atom.xml" title="Angular2 知识梳理" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-http" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/07/31/http/" class="article-date">
+  <time datetime="2017-07-31T02:35:51.000Z" itemprop="datePublished">2017-07-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2（九）： 服务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Angular的http服务返回的是Observable(可观察数据流)，通过订阅来获取可用数据。</p>
+<p>订阅方式有：手动订阅(subscript)、异步管道订阅(async)</p>
+<h4 id="手工订阅"><a href="#手工订阅" class="headerlink" title="手工订阅"></a>手工订阅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div *ngFor=&quot;let prod of products&quot;&gt;&#123;&#123;prod.name&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">products:Array&lt;any&gt; = [];</div><div class="line">dataSource:Observable&lt;any&gt;;</div><div class="line"></div><div class="line">constructor(private http:Http)&#123;</div><div class="line">    this.dataSource = this.http.get(&apos;/products&apos;)</div><div class="line">        //由于返回的数据格式是Response，过需要转成JSON</div><div class="line">        .map((res)=&gt;res.json())</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ngOnInit():void&#123;</div><div class="line">    this.dataSource.subscript(</div><div class="line">        (data)=&gt; this.products = data;</div><div class="line">    )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>http请求的发送并不是由get方法触发的，而是subscribe；</li>
+<li>get方法只是定义了一个http请求，请求的发送是通过订阅完成的；</li>
+</ul>
+<hr>
+<h4 id="异步管道订阅"><a href="#异步管道订阅" class="headerlink" title="异步管道订阅"></a>异步管道订阅</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div *ngFor=&quot;let prod of products | async&quot;&gt;&#123;&#123;prod.name&#125;&#125;&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">products:Observable&lt;any&gt; = [];</div><div class="line"></div><div class="line">constructor(private http:Http)&#123;</div><div class="line">    this.products = this.http.get(&apos;/paoducts&apos;)</div><div class="line">    .map((res)=&gt;res.json());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h4 id="添加Headers"><a href="#添加Headers" class="headerlink" title="添加Headers"></a>添加Headers</h4><p>在定义https请求时，需要添加headers的时候，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">constructor(private http:Http)&#123;</div><div class="line">    let myHeaders:Headers = new Headers();</div><div class="line">    myHeaders.append(&quot;Autor&quot;,&quot;tuluffy&quot;);</div><div class="line">    </div><div class="line">    this.products = this.http.get(&apos;/products&apos;,&#123;headers:myHeaders&#125;)</div><div class="line">        .map((res)=&gt;res.json());</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>有些时候Angular启动的端口地址和服务器端口地址不一致，导致所有的http请求失败。我们需要做端口转发。</p>
+<ul>
+<li>新建转发配置文件，proxy.conf.json：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;/api&quot;:&#123;</div><div class="line">        &quot;target&quot;:&quot;http://localhost:8080&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>即：将以”/api”开头的请求地址转发到”<a href="http://localhost:8080" target="_blank" rel="external">http://localhost:8080</a>“</p>
+<ul>
+<li><p>修改package.json的start项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">start:&quot;ng serve --proxy-config proxy.conf.json&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改请求的地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">this.http.get(&apos;/products&apos;).map((res)=&gt;res.json())</div><div class="line">改为</div><div class="line">this.http.get(&apos;/api/products&apos;).map((res)=&gt;res.json())</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/31/http/" data-id="cj5tao4xl0003h6s60vsk9yzd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/angular.github.io/2017/08/01/form/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Angular 2（八）： 表单
+        
+      </div>
+    </a>
+  
+  
+    <a href="/angular.github.io/2017/07/26/lifecycle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular 2（七）： 生命周期钩子</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/websocket/">Angular 2（十）： websocket</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/directive/">Angular 2（十）： 指令</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/form/">Angular 2（八）： 表单</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/31/http/">Angular 2（九）： 服务</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/26/lifecycle/">Angular 2（七）： 生命周期钩子</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 tuluffy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
+  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/angular.github.io/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Angular 2（十）： websocket | Angular2 知识梳理</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="概览 服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换； 客户端中的服务（socket）作为”被观察者”，客户端中的组件作为观察者； 被观察者通过依赖注入，被注入到组件中；  组件订阅socket产生的流，当流发生变化时，组件就会产生相应的事务。 websocket.ts12345678910111213141516171819202122export class We">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular 2（十）： websocket">
+<meta property="og:url" content="https://github.com/tuluffy/2017/08/01/websocket/index.html">
+<meta property="og:site_name" content="Angular2 知识梳理">
+<meta property="og:description" content="概览 服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换； 客户端中的服务（socket）作为”被观察者”，客户端中的组件作为观察者； 被观察者通过依赖注入，被注入到组件中；  组件订阅socket产生的流，当流发生变化时，组件就会产生相应的事务。 websocket.ts12345678910111213141516171819202122export class We">
+<meta property="og:updated_time" content="2017-08-01T08:01:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular 2（十）： websocket">
+<meta name="twitter:description" content="概览 服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换； 客户端中的服务（socket）作为”被观察者”，客户端中的组件作为观察者； 被观察者通过依赖注入，被注入到组件中；  组件订阅socket产生的流，当流发生变化时，组件就会产生相应的事务。 websocket.ts12345678910111213141516171819202122export class We">
+  
+    <link rel="alternate" href="/atom.xml" title="Angular2 知识梳理" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/angular.github.io/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/angular.github.io/" id="logo">Angular2 知识梳理</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/angular.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/angular.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://github.com/tuluffy"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-websocket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/angular.github.io/2017/08/01/websocket/" class="article-date">
+  <time datetime="2017-08-01T08:01:03.000Z" itemprop="datePublished">2017-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Angular 2（十）： websocket
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><ul>
+<li>服务器端的socket和客户端的服务中的socket保持长连接，进行数据交换；</li>
+<li>客户端中的服务（socket）作为”被观察者”，客户端中的组件作为观察者；</li>
+<li>被观察者通过依赖注入，被注入到组件中；</li>
+</ul>
+<p>组件订阅socket产生的流，当流发生变化时，组件就会产生相应的事务。</p>
+<h4 id="websocket-ts"><a href="#websocket-ts" class="headerlink" title="websocket.ts"></a>websocket.ts</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">export class WebSocketService&#123;</div><div class="line">    ws: WebSocket;</div><div class="line">    </div><div class="line">    createObservableSocket(url:string):Observable&lt;any&gt;&#123;</div><div class="line">        this.ws = new WebSocket(url);</div><div class="line">        </div><div class="line">        return new Observable(observer=&gt;&#123;</div><div class="line">            //指定什么时候派发数据:当后端返回数据时</div><div class="line">            this.ws.onmessage = (event)=&gt;observer.next(event.data);</div><div class="line">            </div><div class="line">            //指定错误发生时如何处理</div><div class="line">            this.ws.onerror = (evevt)=&gt;observer.error(event);</div><div class="line">            </div><div class="line">            //指定关闭时如何处理</div><div class="line">            this.ws.onclose = (event)=&gt;observer.complete();</div><div class="line">        &#125;)</div><div class="line">    &#125;;</div><div class="line">    </div><div class="line">    sendMessage(message:string)&#123;</div><div class="line">        this.ws.send(message);  //向服务器发送数据</div><div class="line">    &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="component-html"><a href="#component-html" class="headerlink" title="component.html"></a>component.html</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">constructor(private wsServer: WebSocketService)&#123;&#125;</div><div class="line"></div><div class="line">ngOnInit()&#123;</div><div class="line">    this.wsServer.createObservableSocket()</div><div class="line">        .subscript(</div><div class="line">            data=&gt;console.log(data);    //当流发送过来消息时</div><div class="line">            err=&gt;console.log(err);</div><div class="line">            ()=&gt;console.log(&apos;流已经结束&apos;);</div><div class="line">        )</div><div class="line">&#125;;</div><div class="line"></div><div class="line">sendMessageToServer()&#123;</div><div class="line">    this.wsServer.sendMessage(‘这是从组件向服务器发送的信息!’);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/08/01/websocket/" data-id="cj5tao4xs0006h6s6nrxfknat" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/angular.github.io/2017/08/01/directive/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Angular 2（十）： 指令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/websocket/">Angular 2（十）： websocket</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/directive/">Angular 2（十）： 指令</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/form/">Angular 2（八）： 表单</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/31/http/">Angular 2（九）： 服务</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/26/lifecycle/">Angular 2（七）： 生命周期钩子</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 tuluffy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/angular.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/angular.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/angular.github.io/fancybox/jquery.fancybox.css">
+  <script src="/angular.github.io/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/angular.github.io/js/script.js"></script>
+
+  </div>
+</body>
+</html>

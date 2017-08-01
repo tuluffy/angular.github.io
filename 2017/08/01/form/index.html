@@ -8,10 +8,10 @@
   <meta name="description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Angular 2（八）： 表单">
-<meta property="og:url" content="https://github.com/tuluffy/2017/07/28/form/index.html">
+<meta property="og:url" content="https://github.com/tuluffy/2017/08/01/form/index.html">
 <meta property="og:site_name" content="Angular2 知识梳理">
 <meta property="og:description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
-<meta property="og:updated_time" content="2017-07-28T07:44:09.000Z">
+<meta property="og:updated_time" content="2017-08-01T03:28:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Angular 2（八）： 表单">
 <meta name="twitter:description" content="标准HTML表单 相关检测属性：required、partern、min、max 一般写法123&amp;lt;form action=&amp;quot;/register&amp;quot; method=&amp;quot;post&amp;quot;&amp;gt;    &amp;lt;input type=&amp;quot;text&amp;quot;/&amp;gt;&amp;lt;/form&amp;gt;    在Angular中，有两种形式的表单：响应式表单、模板式表单">
@@ -65,8 +65,8 @@
       <div class="outer">
         <section id="main"><article id="post-form" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/angular.github.io/2017/07/28/form/" class="article-date">
-  <time datetime="2017-07-28T07:44:09.000Z" itemprop="datePublished">2017-07-28</time>
+    <a href="/angular.github.io/2017/08/01/form/" class="article-date">
+  <time datetime="2017-08-01T03:28:22.000Z" itemprop="datePublished">2017-08-01</time>
 </a>
     
   </div>
@@ -171,10 +171,21 @@
 <p>在④中，如果发生错误，那么将会获取到返回的“错误提示信息”。</p>
 <h4 id="完整的代码示例："><a href="#完整的代码示例：" class="headerlink" title="完整的代码示例："></a>完整的代码示例：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&lt;form [formGroup]=&quot;formModel&quot; (submit)=&quot;onSubmit()&quot;&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    用户名:&lt;input type=&quot;text&quot; formControlName=&quot;username&quot;/&gt;</div><div class="line">    &lt;div [hidden]=&quot;!formModel.hasError(&apos;minlength&apos;,&apos;username&apos;)&quot;&gt;</div><div class="line">      用户名输入不正确</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    手机号:&lt;input type=&quot;text&quot; formControlName=&quot;mobile&quot;/&gt;</div><div class="line">    &lt;div [hidden]=&quot;!formModel.hasError(&apos;mobile&apos;,&apos;mobile&apos;)&quot;&gt;</div><div class="line">      &lt;div&gt;&#123;&#123; formModel.getError(&apos;mobile&apos;,&apos;mobile&apos;)?.msg &#125;&#125;&lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;div formGroupName=&quot;passwords&quot;&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      密码:&lt;input type=&quot;text&quot; formControlName=&quot;psw_1&quot;/&gt;</div><div class="line">      &lt;div [hidden]=&quot;!formModel.hasError(&apos;minlength&apos;,[&apos;passwords&apos;,&apos;psw_1&apos;])&quot;&gt;</div><div class="line">        密码最小长度不符合要求</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">    &lt;div&gt;</div><div class="line">      确认密码:&lt;input type=&quot;text&quot; formControlName=&quot;psw_2&quot;/&gt;</div><div class="line">      &lt;div [hidden]=&quot;!formModel.hasError(&apos;equalPsw&apos;,&apos;passwords&apos;)&quot;&gt;</div><div class="line">        &#123;&#123; formModel.getError(&apos;equalPsw&apos;,&apos;passwords&apos;)?.msg &#125;&#125;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">formModel:FormGroup;</div><div class="line"></div><div class="line">  constructor(fb:FormBuilder)&#123;</div><div class="line">    this.formModel = fb.group(&#123;</div><div class="line">      username:[&apos;&apos;,[Validators.required,Validators.minLength(6)]],</div><div class="line">      mobile:[&apos;&apos;,this.mobileValidator],     //发现一个现象，如果此处加上Validators.required，程序会报错</div><div class="line">      passwords:fb.group(&#123;</div><div class="line">        psw_1:[&apos;&apos;,Validators.minLength(8)],</div><div class="line">        psw_2:[&apos;&apos;],</div><div class="line">      &#125;,&#123;validator:this.equalPswValidator&#125;)</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  mobileValidator(control:FormControl):any&#123;</div><div class="line">    let reg = /^[0-9]*$/;</div><div class="line">    let valid = reg.test(control.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; mobile:&#123;msg:&apos;手机号码不正确!&apos;&#125; &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  equalPswValidator(control:FormGroup):any&#123;</div><div class="line">    let psw_1 = control.get(&apos;psw_1&apos;) as FormControl;</div><div class="line">    let psw_2 = control.get(&apos;psw_2&apos;) as FormControl;</div><div class="line"></div><div class="line">    let valid = (psw_1.value === psw_2.value);</div><div class="line"></div><div class="line">    return valid ? null : &#123; equalPsw:&#123;msg:&apos;密码错误提示信息!&apos;&#125;&#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  onSubmit()&#123;</div><div class="line">    let valid = this.formModel.valid;</div><div class="line"></div><div class="line">    console.log(valid);</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
+<h4 id="状态字段"><a href="#状态字段" class="headerlink" title="状态字段"></a>状态字段</h4><ul>
+<li><p>touched/untouched：字段是否获取过焦点，如果获取过则：true/false，否则相反；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div [hidden]=&quot;!formModel.get(&apos;mobile&apos;).valid || formModel.get(&apos;mobile&apos;).untouched&quot;&gt;</div><div class="line">    当获得过焦点，且表单校验为false，那么显示这段错误提示信息！</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>pristine/dirty：如果一个值未被修改过，则：true/false，否则相反；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div [hidden]=&quot;formModel.get(&apos;mobile&apos;).valid || formModel.get(&apos;mobile&apos;).pristine&quot;&gt;</div><div class="line">    当值被修改过，且不合法的情况下显示该提示信息!</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>pending：当一个字段正处于异步校验中时，该字段为true</p>
+</li>
+</ul>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://github.com/tuluffy/angular.github.io/2017/07/28/form/" data-id="cj5nkb28w0001a932qyqx9ou3" class="article-share-link">Share</a>
+      <a data-url="https://github.com/tuluffy/angular.github.io/2017/08/01/form/" data-id="cj5tao4xm0004h6s6travnls9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,10 +194,19 @@
     
 <nav id="article-nav">
   
+    <a href="/angular.github.io/2017/08/01/directive/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Angular 2（十）： 指令
+        
+      </div>
+    </a>
   
-    <a href="/angular.github.io/2017/07/26/lifecycle/" id="article-nav-older" class="article-nav-link-wrap">
+  
+    <a href="/angular.github.io/2017/07/31/http/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Angular 2（七）： 生命周期钩子</div>
+      <div class="article-nav-title">Angular 2（九）： 服务</div>
     </a>
   
 </nav>
@@ -210,7 +230,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/angular.github.io/archives/2017/07/">July 2017</a></li></ul>
     </div>
   </div>
 
@@ -223,23 +243,23 @@
       <ul>
         
           <li>
-            <a href="/angular.github.io/2017/07/28/form/">Angular 2（八）： 表单</a>
+            <a href="/angular.github.io/2017/08/01/websocket/">Angular 2（十）： websocket</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/directive/">Angular 2（十）： 指令</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/08/01/form/">Angular 2（八）： 表单</a>
+          </li>
+        
+          <li>
+            <a href="/angular.github.io/2017/07/31/http/">Angular 2（九）： 服务</a>
           </li>
         
           <li>
             <a href="/angular.github.io/2017/07/26/lifecycle/">Angular 2（七）： 生命周期钩子</a>
-          </li>
-        
-          <li>
-            <a href="/angular.github.io/2017/07/25/output/">Angular 2（六）： 输入属性、输出属性</a>
-          </li>
-        
-          <li>
-            <a href="/angular.github.io/2017/07/24/databind/">Angular 2（五）： 注入器、数据绑定、管道</a>
-          </li>
-        
-          <li>
-            <a href="/angular.github.io/2017/07/24/diIoc/">Angular 2（四）： 依赖注入和控制反转</a>
           </li>
         
       </ul>
